@@ -20,13 +20,13 @@ void testApp::draw() {
 }
 
 void testApp::keyPressed( int key ) {
-    if( key == ' ' ) {
+    if( key == 'b' || key=='B' ) {
         mySensing->bLearnBakground = true;
     } else if( key == '-' ) {
         mySensing->threshold = MAX( 0, mySensing->threshold-1 );
     } else if( key == '+' || key == '=' ) {
         mySensing->threshold = MIN( 255, mySensing->threshold+1 );
-    } else if (key =='f') {
+    } else if (key =='f' || key=='F') {
 		ofToggleFullscreen();
 	}
 }

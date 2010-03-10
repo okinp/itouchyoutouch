@@ -28,7 +28,7 @@ sensing::sensing()
 	gui.addContent("Input", outputTexture);
 	gui.addSlider("Threshold", threshold , 0.0, 255);
 	gui.addSlider("Bluring", blurAmount , 0, 40);
-	
+	gui.addContent("Difference", grayImg);
 	//gui.addContent("Thresholded Image", videoOutTexture);
 	//gui.addQuadWarper("Quad",offScreenTexture, pts);
 	//
@@ -75,10 +75,10 @@ void sensing::draw()
 		colorImg.draw( 0,0 );
 		blobTracker.draw( 0,0 );
 	outputTexture.end();
-	grayImg.draw( 360,200 );
-	
-    ofDrawBitmapString( "[space] to learn background\n[+]/[-] to adjust threshold",
-					   20,510 );
+	//grayImg.draw( 360,200 );
+	ofDrawBitmapString( "Press B to learn background",
+					   100,510 );
+
 }
 
 
