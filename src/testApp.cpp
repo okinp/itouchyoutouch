@@ -5,11 +5,12 @@
 
 void testApp::setup() {
     ofSetFrameRate( 60 );
+	ofBackground( 0, 0, 0 );
 	mySensing = new sensing();
 
 }
 void testApp::update() {
-	ofBackground( 100, 100, 100 );
+	
 	mySensing->update();
 
 
@@ -22,12 +23,10 @@ void testApp::draw() {
 void testApp::keyPressed( int key ) {
     if( key == 'b' || key=='B' ) {
         mySensing->bLearnBakground = true;
-    } else if( key == '-' ) {
-        mySensing->threshold = MAX( 0, mySensing->threshold-1 );
-    } else if( key == '+' || key == '=' ) {
-        mySensing->threshold = MIN( 255, mySensing->threshold+1 );
     } else if (key =='f' || key=='F') {
 		ofToggleFullscreen();
+	} else if (key ==' ') {
+		mySensing->show=!mySensing->show;
 	}
 }
 void testApp::mouseMoved( int x, int y ) {}

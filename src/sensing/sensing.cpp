@@ -15,6 +15,7 @@ sensing::sensing()
     cheight = 240;
 	threshold = 60;
 	bLearnBakground = true;
+	show=false;
 	
 	vidGrabber.initGrabber( cwidth, cheight );
 	colorImg.allocate( cwidth, cheight );
@@ -69,7 +70,8 @@ void sensing::update()
 	
 }
 void sensing::draw()
-{	gui.draw();
+{	if (show) {
+	gui.draw();
 	outputTexture.begin();
 		ofSetColor( 0xffffff );
 		colorImg.draw( 0,0 );
@@ -78,6 +80,8 @@ void sensing::draw()
 	//grayImg.draw( 360,200 );
 	ofDrawBitmapString( "Press B to learn background",
 					   100,510 );
+}
+	
 
 }
 

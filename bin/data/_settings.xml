@@ -5,6 +5,6 @@
     </SliderInt_Threshold>
     <SliderInt_Bluring>
         <name>Bluring</name>
-        <value>2</value>
+        <value>0</value>
     </SliderInt_Bluring>
 </controls>
