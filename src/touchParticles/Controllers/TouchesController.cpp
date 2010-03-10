@@ -5,8 +5,6 @@
 
 TouchesController::TouchesController()
 {
-	_drawing = DISABLED;
-	_playing = DISABLED;
 }
 
 /* Load
@@ -34,47 +32,9 @@ void TouchesController::load()
 
 void TouchesController::update(float mouseX, float mouseY)
 {	
-	compare1.set(mouseX, mouseY);
-	bool found = false;
-	
 	for (int i = 0; i < touches.size(); i++) 
 	{
-		if (i == _drawing) 
-		{
-			touches[i]->update(compare1.x, compare1.y);
-		}
-		else 
-		{
-			touches[i]->update();
-			
-			if(_playing == DISABLED)
-			{
-				if (_drawing != DISABLED) 
-				{
-					if(!found)
-					{
-						compare2.set(touches[i]->getCenterX(), touches[i]->getCenterY());
-						
-						if(abs((int) compare1.distance(compare2)) < PROXIMITY) 
-						{
-							touches[i]->play();
-							_playing = i;
-							found = true;
-							hideAllBut(i);
-						}
-					}
-				}
-			}
-			else if(i == _playing)
-			{
-				if(touches[_playing]->checkStopped())
-				{
-					touches[_playing]->reset();
-					
-					_playing = DISABLED;
-				}
-			}
-		}
+		touches[i]->update();
 	}	
 }
 
@@ -89,38 +49,80 @@ void TouchesController::draw()
 	}
 }
 
+/* Find closest touch
+ ___________________________________________________________ */
+
+void TouchesController::findClosest(int index)
+{
+	compare1.set(touches[index]->getCenterX(), touches[index]->getCenterY());
+	
+	for(int i = 0; i < touches.size(); i++)
+	{
+		compare2.set(touches[i]->getCenterX(), touches[i]->getCenterY());
+		
+		if(abs((int) compare1.distance(compare2)) < PROXIMITY) 
+		{
+			touches[i]->play();
+			touches[index]->getModel()->hasPlaying = i;
+			hideAllBut(i);
+		}
+	}
+}
+
 /* Touch Events
  ___________________________________________________________ */
 
-void TouchesController::touchStarted(int blobid)
+
+void TouchesController::touchStarted(ofxCvTrackedBlob blob)
 {
-	// create new touch and start tracking
-	TouchController * touch = new TouchController(blobid);
+	TouchController * touch = new TouchController(blob.id);
 	touch->setupParticles();
 	touch->setDateTime();
-	touch->setTestOutline();
+	touch->getModel()->drawing = true;
+	touch->addPathPoint(blob.centroid.x, blob.centroid.y);
+	touch->setOutline(blob.pts);
 	
 	touches.push_back(touch);
-	
-	_drawing = touches.size() - 1;
 	
 	showAllBut(-1);
 }
 
-void TouchesController::touchEnded()
+void TouchesController::touchMoved(ofxCvTrackedBlob blob)
 {
-	touches[_drawing]->reset();
-	
-	// save drawing to new file here
-	//touches[_drawing]->save();
-	
-	if(_playing != DISABLED)
+	for(int i = 0; i < touches.size(); i++)
 	{
-		touches[_playing]->reset();
+		if (touches[i]->getModel()->blobid == blob.id) 
+		{
+			touches[i]->addPathPoint(blob.centroid.x, blob.centroid.y);
+			touches[i]->setOutline(blob.pts);
+
+			if (touches[i]->getModel()->hasPlaying == DISABLED) 
+			{
+				findClosest(i);
+			}
+
+			break;
+		}
 	}
-	
-	_playing = DISABLED;
-	_drawing = DISABLED;
+}
+
+void TouchesController::touchEnded(ofxCvTrackedBlob blob)
+{
+	for(int i = 0; i < touches.size(); i++)
+	{
+		if (touches[i]->getModel()->blobid == blob.id) 
+		{
+			touches[i]->reset();
+			//touches[i]->save();
+			
+			if(touches[i]->getModel()->hasPlaying != DISABLED)
+			{
+				touches[touches[i]->getModel()->hasPlaying]->reset();
+			}
+			
+			break;
+		}
+	}
 	
 	hideAllBut(-1);
 }
@@ -138,7 +140,7 @@ void TouchesController::showAllBut(int leaveOut, bool hideDrawing)
 			{
 				touches[i]->show();
 			}
-			else if(hideDrawing && i != _drawing)
+			else if(hideDrawing && !touches[i]->getModel()->drawing)
 			{
 				touches[i]->show();
 			}
@@ -150,13 +152,13 @@ void TouchesController::hideAllBut(int leaveOut, bool hideDrawing)
 {
 	for(int i = 0; i < touches.size(); i++)
 	{
-		if(i != leaveOut && i != _drawing)
+		if(i != leaveOut)
 		{
 			if(!hideDrawing)
 			{
 				touches[i]->hide();
 			}
-			else if(hideDrawing && i != _drawing)
+			else if(hideDrawing && !touches[i]->getModel()->drawing)
 			{
 				touches[i]->hide();
 			}

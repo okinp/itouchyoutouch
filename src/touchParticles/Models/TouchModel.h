@@ -2,6 +2,7 @@
 
 #include "Tools.h"
 #include "ofxVec2f.h"
+#include "Constants.h"
 
 class TouchModel
 {
@@ -11,20 +12,24 @@ public:
 
 	PVector center;
 	
-	vector <PVector> path;
-	vector <PVector> outline;
+	vector <ofPoint> path;
+	vector <ofPoint> outline;
 	vector <PSetting> settings;
 	int dateTime[6]; // 2010-3-4-15-36-7
 	string fileName;
 
 	bool visible;
 	
+	int hasPlaying;
 	int playHead;
 	bool playing;
+	bool drawing;
 
 	TouchModel()
 	{
+		hasPlaying = DISABLED;
 		visible = false;
+		drawing = false;
 		
 		PSetting setting1;
 		setting1.percent = 0.80;

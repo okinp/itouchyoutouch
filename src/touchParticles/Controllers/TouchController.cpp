@@ -24,9 +24,9 @@ void TouchController::setupParticles()
 /* Update : Call on current touch
  ___________________________________________________________ */
 
-void TouchController::update(int xPos, int yPos)
+void TouchController::addPathPoint(int xPos, int yPos)
 {		
-	model->path.push_back(PVector(xPos, yPos));
+	model->path.push_back(ofPoint(xPos, yPos));
 	model->playHead = model->path.size() - 1;
 	
 	updateCommon();
@@ -50,7 +50,6 @@ void TouchController::update()
 	
 	updateCommon();
 }
-
 
 /* Update : Common update for all
  ___________________________________________________________ */
@@ -77,7 +76,7 @@ void TouchController::draw()
 
 
 /* Play : Call on selected old touch to interact
-___________________________________________________________ */
+ ___________________________________________________________ */
 
 void TouchController::play()
 {	
@@ -141,7 +140,7 @@ void TouchController::loadXML()
 			{
 				for (int i = 0; i < _xml.getNumTags(POINT); i++) 
 				{
-					PVector point;
+					ofPoint point;
 					point.x = (float) _xml.getAttribute(POINT, X, 0, i);
 					point.y = (float) _xml.getAttribute(POINT, Y, 0, i);
 					model->outline.push_back(point);
@@ -155,7 +154,7 @@ void TouchController::loadXML()
 			{
 				for (int i = 0; i < _xml.getNumTags(POINT); i++) 
 				{
-					PVector point;
+					ofPoint point;
 					point.x = (float) _xml.getAttribute(POINT, X, 0, i);
 					point.y = (float) _xml.getAttribute(POINT, Y, 0, i);
 					model->path.push_back(point);
@@ -186,12 +185,12 @@ void TouchController::save()
 	_xml.loadFromBuffer("<root></root>");
 	
 	_xml.clear();
-
+	
 	_xml.addTag(TOUCH);
 	_xml.pushTag(TOUCH, 0);
 	
 	_xml.addTag(CENTER);
-
+	
 	_xml.addAttribute(CENTER, X, ofToString(model->center.x, 1), 0);
 	_xml.addAttribute(CENTER, Y, ofToString(model->center.y, 1), 0);
 	
@@ -247,7 +246,7 @@ void TouchController::save()
 }
 
 /* Setters
-___________________________________________________________ */
+ ___________________________________________________________ */
 
 void TouchController::setDateTime()
 {
@@ -264,10 +263,16 @@ void TouchController::setFileName(string fileName)
 	model->fileName = fileName;
 }
 
+void TouchController::setOutline(vector <ofPoint> newOutline)
+{
+	model->outline.clear();
+	model->outline = newOutline;
+}
+
 void TouchController::setTestOutline()
 {
 	// just a test outline/ for new touches
-	PVector p1;
+	ofPoint p1;
 	model->outline.push_back(p1);
 	p1.x += 30;
 	model->outline.push_back(p1);
@@ -287,4 +292,9 @@ float TouchController::getCenterX()
 float TouchController::getCenterY()
 {
 	return model->getCenterY();
+}
+
+TouchModel * TouchController::getModel()
+{
+	return model;
 }
