@@ -62,11 +62,14 @@ void sensing::update()
         contourFinder.findContours( grayImg, 10,20000, 10, false );
         blobTracker.trackBlobs( contourFinder.blobs );
     }
+<<<<<<< HEAD
+=======
 	
 		// blobTracker.blobs
 	
 	
 	
+>>>>>>> 5430eeae3585612b9d3ae150ce3497c5d2ad0407
 }
 
 void sensing::draw()

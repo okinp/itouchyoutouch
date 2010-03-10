@@ -17,9 +17,9 @@ void testApp::update()
 	mySensing->update();
 	touches->update();
 }
-
-void testApp::draw() 
-{
+<<<<<<< HEAD
+=======
+void testApp::draw() {
 	mySensing->draw();
 	/*
 	//-------Showing How to Access Blobs & IDs-----------//
@@ -43,7 +43,12 @@ void testApp::draw()
     }
 	
 	*/
+>>>>>>> 5430eeae3585612b9d3ae150ce3497c5d2ad0407
 
+void testApp::draw() 
+{
+	mySensing->draw();
+	touches->draw();
 }
 
 void testApp::keyPressed( int key ) 
