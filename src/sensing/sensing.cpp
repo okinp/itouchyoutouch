@@ -66,11 +66,14 @@ void sensing::update()
         blobTracker.trackBlobs( contourFinder.blobs );
     }
 	
+		// blobTracker.blobs
+	
 	
 	
 }
 void sensing::draw()
-{	if (show) {
+{	
+	if (show) {
 	gui.draw();
 	outputTexture.begin();
 		ofSetColor( 0xffffff );
@@ -80,9 +83,11 @@ void sensing::draw()
 	//grayImg.draw( 360,200 );
 	ofDrawBitmapString( "Press B to learn background",
 					   100,510 );
-}
-	
-
+	}
 }
 
+vector <ofxCvTrackedBlob> sensing::getBlobs()
+{
+	return blobTracker.blobs;
+}
 

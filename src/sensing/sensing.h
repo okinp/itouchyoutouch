@@ -35,6 +35,7 @@ public:
 	sensing();
 	void update();
 	void draw();
+	vector <ofxCvTrackedBlob> getBlobs();
 private:
 	ofxFBOTexture outputTexture;
 	int blurAmount;

@@ -1,10 +1,10 @@
 <controls>
     <SliderInt_Threshold>
         <name>Threshold</name>
-        <value>60</value>
+        <value>51</value>
     </SliderInt_Threshold>
     <SliderInt_Bluring>
         <name>Bluring</name>
-        <value>0</value>
+        <value>11</value>
     </SliderInt_Bluring>
 </controls>
