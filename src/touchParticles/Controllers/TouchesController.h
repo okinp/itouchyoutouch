@@ -33,4 +33,6 @@ class TouchesController
 		
 		ofxVec2f compare1;
 		ofxVec2f compare2;
+	
+		int numDrawing;
 };

@@ -5,6 +5,7 @@
 
 TouchesController::TouchesController()
 {
+	numDrawing = 0;
 }
 
 /* Load
@@ -76,16 +77,21 @@ void TouchesController::findClosest(int index)
 
 void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint centroid)
 {
-	TouchController * touch = new TouchController(blobid);
-	touch->setupParticles();
-	touch->setDateTime();
-	touch->getModel()->drawing = true;
-	touch->addPathPoint(centroid.x, centroid.y);
-	touch->setOutline(pts);
-	
-	touches.push_back(touch);
-	
-	showAllBut(-1);
+	if(numDrawing < SIM_ALLOWED_TOUCHES)
+	{
+		TouchController * touch = new TouchController(blobid);
+		touch->setupParticles();
+		touch->setDateTime();
+		touch->getModel()->drawing = true;
+		touch->addPathPoint(centroid.x, centroid.y);
+		touch->setOutline(pts);
+		
+		touches.push_back(touch);
+		
+		numDrawing++;
+		
+		showAllBut(-1);
+	}
 }
 
 void TouchesController::touchMoved(int blobid, vector <ofPoint> pts, ofPoint centroid)
@@ -121,11 +127,15 @@ void TouchesController::touchEnded(int blobid)
 				touches[touches[i]->getModel()->hasPlaying]->reset();
 			}
 			
+			numDrawing--;
+			
+			hideAllBut(-1);
+			
+			touches[i]->getModel()->drawing = false;
+			
 			break;
 		}
 	}
-	
-	hideAllBut(-1);
 }
 
 /* Show / Hide all

@@ -21,6 +21,8 @@ void testApp::update()
 void testApp::draw() 
 {
 	mySensing->draw();
+	touches->draw();
+	
 	/*
 	//-------Showing How to Access Blobs & IDs-----------//
 	

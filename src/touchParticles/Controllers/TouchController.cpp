@@ -67,9 +67,15 @@ void TouchController::draw()
 {	
 	view.render();
 	
+	// just for testing
 	if(model->playing)
 	{
 		ofSetColor(0, 255, 0);
+		ofCircle(model->getCenterX(), model->getCenterY(), 5);
+	}
+	else if(model->drawing)
+	{
+		ofSetColor(255, 0, 0);
 		ofCircle(model->getCenterX(), model->getCenterY(), 5);
 	}
 }

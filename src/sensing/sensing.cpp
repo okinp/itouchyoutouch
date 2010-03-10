@@ -1,18 +1,9 @@
-/*
- *  sensing.cpp
- *  itouchyoutouch
- *
- *  Created by Nikolas Psaroudakis on 3/10/10.
- *  Copyright 2010 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include "sensing.h"
 
 sensing::sensing(ofxCvBlobListener * listener)
 {
-	cwidth = 320;
-    cheight = 240;
+	cwidth = VIDEO_WIDTH;
+    cheight = VIDEO_HEIGHT;
 	threshold = 60;
 	bLearnBakground = true;
 	show=false;
@@ -44,12 +35,14 @@ void sensing::update()
 {
 	vidGrabber.grabFrame();
 	
-	if( vidGrabber.isFrameNew() ) {
+	if( vidGrabber.isFrameNew() ) 
+	{
         colorImg = vidGrabber.getPixels();
         colorImg.mirror( false, true );
         grayImg = colorImg;
 		
-        if( bLearnBakground ) {
+        if( bLearnBakground ) 
+		{
             bgImg = grayImg;
             bLearnBakground = false;
         }
@@ -62,25 +55,21 @@ void sensing::update()
         contourFinder.findContours( grayImg, 10,20000, 10, false );
         blobTracker.trackBlobs( contourFinder.blobs );
     }
-	
-		// blobTracker.blobs
-	
-	
-	
 }
 
 void sensing::draw()
 {	
-	if (show) {
-	gui.draw();
-	outputTexture.begin();
+	if (show) 
+	{
+		gui.draw();
+		
+		outputTexture.begin();
 		ofSetColor( 0xffffff );
 		colorImg.draw( 0,0 );
-		blobTracker.draw( 0,0 );
-	outputTexture.end();
-	//grayImg.draw( 360,200 );
-	ofDrawBitmapString( "Press B to learn background",
-					   100,510 );
+		blobTracker.draw(0, 0);
+		outputTexture.end();
+		//grayImg.draw( 360,200 );
+		ofDrawBitmapString( "Press B to learn background", 100, 510);
 	}
 }
 
