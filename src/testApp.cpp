@@ -15,37 +15,13 @@ void testApp::setup()
 void testApp::update() 
 {	
 	mySensing->update();
-	touches->update();
+	//touches->update();
 }
 
 void testApp::draw() 
 {
 	mySensing->draw();
-	touches->draw();
-	
-	/*
-	//-------Showing How to Access Blobs & IDs-----------//
-	
-	vector <ofxCvTrackedBlob> blobs= mySensing->getBlobs();
-	ofSetColor(0xffffff);
-	for( int i=0; i<blobs.size(); i++ ) {
-		glBegin(GL_LINE_LOOP);
-		for( int j=0; j<blobs[i].pts.size(); j++ ) {
-			glVertex2f( blobs[i].pts[j].x, blobs[i].pts[j].y );
-		}
-		glEnd();
-	}
-	ofSetColor( 0xffffff );
-    for( int i=0; i<blobs.size(); i++ ) {
-        ostringstream docstring;
-        //docstring << blobs[i].id << endl;
-        docstring << mySensing->blobTracker.findOrder(blobs[i].id) << endl;
-        ofDrawBitmapString( docstring.str(),
-						   blobs[i].centroid.x, blobs[i].centroid.y );
-    }
-	
-	*/
-
+	//touches->draw();
 }
 
 void testApp::keyPressed( int key ) 

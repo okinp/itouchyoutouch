@@ -6,7 +6,7 @@ sensing::sensing(ofxCvBlobListener * listener)
     cheight = VIDEO_HEIGHT;
 	threshold = 60;
 	bLearnBakground = true;
-	show=false;
+	show = false;
 	
 	vidGrabber.initGrabber( cwidth, cheight );
 	colorImg.allocate( cwidth, cheight );
@@ -52,8 +52,8 @@ void sensing::update()
         grayImg.threshold( threshold );
 		
         //findContures( img, minSize, maxSize, nMax, inner contours yes/no )
-        contourFinder.findContours( grayImg, 10,20000, 10, false );
-        blobTracker.trackBlobs( contourFinder.blobs );
+        contourFinder.findContours(grayImg, 10,20000, 10, false);
+        blobTracker.trackBlobs(contourFinder.blobs );
     }
 }
 

@@ -28,8 +28,6 @@ void TouchController::addPathPoint(int xPos, int yPos)
 {		
 	model->path.push_back(ofPoint(xPos, yPos));
 	model->playHead = model->path.size() - 1;
-	
-	updateCommon();
 }
 
 /* Update : Call on all other
@@ -48,15 +46,7 @@ void TouchController::update()
 		}
 	}
 	
-	updateCommon();
-}
-
-/* Update : Common update for all
- ___________________________________________________________ */
-
-void TouchController::updateCommon()
-{		
-	view.update();
+	//view.update();
 }
 
 /* Draw
@@ -65,7 +55,7 @@ void TouchController::updateCommon()
 
 void TouchController::draw()
 {	
-	view.render();
+	//view.render();
 	
 	// just for testing
 	if(model->playing)
@@ -77,6 +67,11 @@ void TouchController::draw()
 	{
 		ofSetColor(255, 0, 0);
 		ofCircle(model->getCenterX(), model->getCenterY(), 5);
+		
+		/*for (int i = 0; i < model->outline.size(); i++) 
+		{
+			ofCircle(model->outline[i].x, model->outline[i].y, 3);
+		}*/
 	}
 }
 

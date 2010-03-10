@@ -32,7 +32,7 @@ public:
 		drawing = false;
 		
 		PSetting setting1;
-		setting1.percent = 0.80;
+		setting1.percent = 0.0;
 		setting1.dirMin = -0.2;
 		setting1.dirMax = -0.9;
 		setting1.lifeMin = 0.3;
@@ -40,7 +40,7 @@ public:
 		settings.push_back(setting1);
 		
 		PSetting setting2;
-		setting2.percent = 0.20;
+		setting2.percent = 1;
 		setting2.dirMin = -0.002;
 		setting2.dirMax = -0.007;
 		setting2.lifeMin = 0.1;

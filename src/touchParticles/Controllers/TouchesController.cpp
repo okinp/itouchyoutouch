@@ -66,7 +66,7 @@ void TouchesController::findClosest(int index)
 		{
 			touches[i]->play();
 			touches[index]->getModel()->hasPlaying = i;
-			hideAllBut(i);
+			//hideAllBut(i);
 		}
 	}
 }
@@ -90,7 +90,7 @@ void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint c
 		
 		numDrawing++;
 		
-		showAllBut(-1);
+		//showAllBut(-1);
 	}
 }
 
@@ -103,10 +103,10 @@ void TouchesController::touchMoved(int blobid, vector <ofPoint> pts, ofPoint cen
 			touches[i]->addPathPoint(centroid.x, centroid.y);
 			touches[i]->setOutline(pts);
 
-			if (touches[i]->getModel()->hasPlaying == DISABLED) 
+			/*if (touches[i]->getModel()->hasPlaying == DISABLED) 
 			{
 				findClosest(i);
-			}
+			}*/
 
 			break;
 		}
@@ -129,7 +129,7 @@ void TouchesController::touchEnded(int blobid)
 			
 			numDrawing--;
 			
-			hideAllBut(-1);
+			//hideAllBut(-1);
 			
 			touches[i]->getModel()->drawing = false;
 			
