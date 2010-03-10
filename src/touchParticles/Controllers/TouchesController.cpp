@@ -19,6 +19,7 @@ void TouchesController::load()
 	
 	for(int i = 0; i < numFiles; i++)
 	{
+		printf("Creating touch \n");
 		TouchController * touch = new TouchController(DISABLED); // set -1 to show blob is saved
 		touch->setupParticles();
 		touch->load(DIR.getName(i));
@@ -30,7 +31,7 @@ void TouchesController::load()
 /* Update
  ___________________________________________________________ */
 
-void TouchesController::update(float mouseX, float mouseY)
+void TouchesController::update()
 {	
 	for (int i = 0; i < touches.size(); i++) 
 	{
@@ -73,28 +74,28 @@ void TouchesController::findClosest(int index)
  ___________________________________________________________ */
 
 
-void TouchesController::touchStarted(ofxCvTrackedBlob blob)
+void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint centroid)
 {
-	TouchController * touch = new TouchController(blob.id);
+	TouchController * touch = new TouchController(blobid);
 	touch->setupParticles();
 	touch->setDateTime();
 	touch->getModel()->drawing = true;
-	touch->addPathPoint(blob.centroid.x, blob.centroid.y);
-	touch->setOutline(blob.pts);
+	touch->addPathPoint(centroid.x, centroid.y);
+	touch->setOutline(pts);
 	
 	touches.push_back(touch);
 	
 	showAllBut(-1);
 }
 
-void TouchesController::touchMoved(ofxCvTrackedBlob blob)
+void TouchesController::touchMoved(int blobid, vector <ofPoint> pts, ofPoint centroid)
 {
 	for(int i = 0; i < touches.size(); i++)
 	{
-		if (touches[i]->getModel()->blobid == blob.id) 
+		if (touches[i]->getModel()->blobid == blobid) 
 		{
-			touches[i]->addPathPoint(blob.centroid.x, blob.centroid.y);
-			touches[i]->setOutline(blob.pts);
+			touches[i]->addPathPoint(centroid.x, centroid.y);
+			touches[i]->setOutline(pts);
 
 			if (touches[i]->getModel()->hasPlaying == DISABLED) 
 			{
@@ -106,11 +107,11 @@ void TouchesController::touchMoved(ofxCvTrackedBlob blob)
 	}
 }
 
-void TouchesController::touchEnded(ofxCvTrackedBlob blob)
+void TouchesController::touchEnded(int blobid)
 {
 	for(int i = 0; i < touches.size(); i++)
 	{
-		if (touches[i]->getModel()->blobid == blob.id) 
+		if (touches[i]->getModel()->blobid == blobid) 
 		{
 			touches[i]->reset();
 			//touches[i]->save();

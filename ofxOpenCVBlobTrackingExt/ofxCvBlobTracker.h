@@ -37,7 +37,7 @@ class ofxCvBlobTracker {
 
 
     ofxCvBlobTracker();
-    void setListener( ofxCvBlobListener* _listener );
+    void setListener( ofxCvBlobListener * _listener );
     void trackBlobs( const vector<ofxCvBlob>& blobs );
     int findOrder( int id );  // order by which the present
                               // blobs came into existence

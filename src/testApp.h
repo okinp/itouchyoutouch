@@ -1,15 +1,15 @@
 #include "ofMain.h"
-/*  CV  Headers */
 #include "ofxCvBlobTracker.h"
 #include "ofxCvTrackedBlob.h"
 #include "ofxCvConstants_Track.h"
 #include "sensing.h"
+#include "TouchesController.h"
 
-class testApp : public ofSimpleApp, public ofxCvBlobListener {
-
+class testApp : public ofSimpleApp, public ofxCvBlobListener 
+{
   public:
-	sensing* mySensing;
-    void setup();
+    
+	void setup();
     void update();
     void draw();
 
@@ -22,6 +22,8 @@ class testApp : public ofSimpleApp, public ofxCvBlobListener {
     void blobOn( int x, int y, int id, int order );
     void blobMoved( int x, int y, int id, int order );
     void blobOff( int x, int y, int id, int order );
-
+	
+	sensing * mySensing;
+	TouchesController * touches;
 };
 

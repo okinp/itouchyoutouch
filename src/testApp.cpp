@@ -1,53 +1,68 @@
 
 #include "testApp.h"
 
-
-
-void testApp::setup() {
+void testApp::setup() 
+{
     ofSetFrameRate( 60 );
 	ofBackground( 0, 0, 0 );
-	mySensing = new sensing();
-
-}
-void testApp::update() {
 	
+	mySensing = new sensing(this);
+	
+	touches = new TouchesController();
+	touches->load();
+}
+
+void testApp::update() 
+{	
 	mySensing->update();
-
-
+	touches->update();
 }
-void testApp::draw() {
+
+void testApp::draw() 
+{
 	mySensing->draw();
-
+	touches->draw();
 }
 
-void testApp::keyPressed( int key ) {
-    if( key == 'b' || key=='B' ) {
+void testApp::keyPressed( int key ) 
+{
+    if( key == 'b' || key=='B' ) 
+	{
         mySensing->bLearnBakground = true;
-    } else if (key =='f' || key=='F') {
+    } 
+	else if (key =='f' || key=='F') 
+	{
 		ofToggleFullscreen();
-	} else if (key ==' ') {
-		mySensing->show=!mySensing->show;
+	} 
+	else if (key ==' ') 
+	{
+		mySensing->show =! mySensing->show;
 	}
 }
+
 void testApp::mouseMoved( int x, int y ) {}
 void testApp::mouseDragged( int x, int y, int button ) {}
 void testApp::mousePressed( int x, int y, int button ) {}
 void testApp::mouseReleased() {}
 
 
-void testApp::blobOn( int x, int y, int id, int order ) {
-    cout << "blobOn() - id:" << id << " order:" << order << endl;
+void testApp::blobOn( int x, int y, int id, int order ) 
+{	
+	ofxCvTrackedBlob blob = mySensing->blobTracker.getById(id);
+	
+	touches->touchStarted(blob.id, blob.pts, blob.centroid);	
 }
-void testApp::blobMoved( int x, int y, int id, int order) {
-    cout << "blobMoved() - id:" << id << " order:" << order << endl;
 
-    // full access to blob object ( get a reference)
+void testApp::blobMoved( int x, int y, int id, int order)
+{
     ofxCvTrackedBlob blob = mySensing->blobTracker.getById( id );
-    cout << "area: " << blob.area << endl;
+	
+	touches->touchMoved(blob.id, blob.pts, blob.centroid);
 
 }
-void testApp::blobOff( int x, int y, int id, int order ) {
-    cout << "blobOff() - id:" << id << " order:" << order << endl;
+void testApp::blobOff( int x, int y, int id, int order ) 
+{
+	touches->touchEnded(id);
 }
 
 

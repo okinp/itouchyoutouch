@@ -9,7 +9,7 @@
 
 #include "sensing.h"
 
-sensing::sensing()
+sensing::sensing(ofxCvBlobListener * listener)
 {
 	cwidth = 320;
     cheight = 240;
@@ -22,14 +22,14 @@ sensing::sensing()
 	grayImg.allocate( cwidth, cheight );
 	bgImg.allocate( cwidth, cheight );
 	outputTexture.allocate(cwidth, cheight, GL_RGB);
-	//blobTracker.setListener(this );
-	/*________________ INIT GUI __________________*/
-	// 'gui' is a global variable declared in ofxSimpleGuiToo.h
+	blobTracker.setListener(listener);
+	
 	gui.addTitle("Input");
 	gui.addContent("Input", outputTexture);
 	gui.addSlider("Threshold", threshold , 0.0, 255);
 	gui.addSlider("Bluring", blurAmount , 0, 40);
 	gui.addContent("Difference", grayImg);
+	
 	//gui.addContent("Thresholded Image", videoOutTexture);
 	//gui.addQuadWarper("Quad",offScreenTexture, pts);
 	//
@@ -37,14 +37,11 @@ sensing::sensing()
 	//gui.addSlider("Area", area, 0, 4000); 
 	//gui.addToggle("Contours", showContours);
 	
-	
-	
 	gui.show();
 
 }
 void sensing::update()
 {
-	
 	vidGrabber.grabFrame();
 	
 	if( vidGrabber.isFrameNew() ) {
@@ -65,10 +62,8 @@ void sensing::update()
         contourFinder.findContours( grayImg, 10,20000, 10, false );
         blobTracker.trackBlobs( contourFinder.blobs );
     }
-	
-	
-	
 }
+
 void sensing::draw()
 {	if (show) {
 	gui.draw();

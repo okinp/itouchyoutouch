@@ -32,7 +32,8 @@ public:
     ofxCvGrayscaleImage  bgImg;
     ofxCvContourFinder  contourFinder;
     ofxCvBlobTracker  blobTracker;	
-	sensing();
+	//sensing();
+	sensing(ofxCvBlobListener * listener);
 	void update();
 	void draw();
 private:
