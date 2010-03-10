@@ -17,6 +17,7 @@ public:
 	int threshold;
 	bool bLearnBakground;
 	bool show;
+	int area;
     ofVideoGrabber  vidGrabber;
     ofxCvColorImage  colorImg;
     ofxCvGrayscaleImage  grayImg;

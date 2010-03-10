@@ -5,6 +5,7 @@ sensing::sensing(ofxCvBlobListener * listener)
 	cwidth = VIDEO_WIDTH;
     cheight = VIDEO_HEIGHT;
 	threshold = 60;
+	area=20;
 	bLearnBakground = true;
 	show=false;
 	
@@ -20,14 +21,7 @@ sensing::sensing(ofxCvBlobListener * listener)
 	gui.addSlider("Threshold", threshold , 0.0, 255);
 	gui.addSlider("Bluring", blurAmount , 0, 40);
 	gui.addContent("Difference", grayImg);
-	
-	//gui.addContent("Thresholded Image", videoOutTexture);
-	//gui.addQuadWarper("Quad",offScreenTexture, pts);
-	//
-	//gui.addContent("Labelled", videoOutTexture);
-	//gui.addSlider("Area", area, 0, 4000); 
-	//gui.addToggle("Contours", showContours);
-	
+	gui.addSlider("Area",area,10,6000);	
 	gui.show();
 
 }
@@ -52,7 +46,7 @@ void sensing::update()
         grayImg.threshold( threshold );
 		
         //findContures( img, minSize, maxSize, nMax, inner contours yes/no )
-        contourFinder.findContours( grayImg, 10,20000, 10, false );
+        contourFinder.findContours( grayImg, area, 300000, 20, false );
         blobTracker.trackBlobs( contourFinder.blobs );
     }
 }

@@ -5,6 +5,10 @@
     </SliderInt_Threshold>
     <SliderInt_Bluring>
         <name>Bluring</name>
-        <value>0</value>
+        <value>23</value>
     </SliderInt_Bluring>
+    <SliderInt_Area>
+        <name>Area</name>
+        <value>4303</value>
+    </SliderInt_Area>
 </controls>
