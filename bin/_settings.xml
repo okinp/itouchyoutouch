@@ -1,0 +1,10 @@
+<controls>
+    <SliderFloat_Threshold>
+        <name>Threshold</name>
+        <value>0.000000</value>
+    </SliderFloat_Threshold>
+    <SliderFloat_Area>
+        <name>Area</name>
+        <value>0.000000</value>
+    </SliderFloat_Area>
+</controls>
