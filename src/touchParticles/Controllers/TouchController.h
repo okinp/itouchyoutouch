@@ -22,7 +22,7 @@ public:
 	void loadXML();
 	void loadParticles();
 	
-	void update(int xPos, int yPos);
+	void addPathPoint(int xPos, int yPos);
 	void update();
 	void updateCommon();
 	void draw();
@@ -35,14 +35,16 @@ public:
 	bool checkStopped();
 	
 	void setDateTime();
+	void setOutline(vector <ofPoint> newOutline);
 	void setTestOutline();
+	
 	
 	void setupParticles();
 	
 	float getCenterX();
 	float getCenterY();
 	
-	
+	TouchModel * getModel();
 	
 private:
 	

@@ -102,7 +102,7 @@ void TouchView::spawn(int i)
 			setParticleColor(i, 1, 1, 1, 1);
 			
 			int max = model->outline.size() - 1;
-			PVector thePoint = model->outline[ofRandom(0, max)];
+			ofPoint thePoint = model->outline[ofRandom(0, max)];
 			
 			// set static center for test 
 			PVector center;

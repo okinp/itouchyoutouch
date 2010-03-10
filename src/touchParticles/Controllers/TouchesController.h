@@ -6,6 +6,9 @@
 #include "ofxDirList.h"
 #include "ofxVec2f.h"
 #include "Constants.h"
+#include "ofxCvBlobTracker.h"
+#include "ofxCvTrackedBlob.h"
+#include "ofxCvConstants_Track.h"
 
 class TouchesController
 {
@@ -17,8 +20,9 @@ class TouchesController
 		void update(float mouseX, float mouseY);
 		void draw();
 	
-		void touchStarted(int blobid);
-		void touchEnded();
+		void touchStarted(ofxCvTrackedBlob blob);
+		void touchMoved(ofxCvTrackedBlob blob);
+		void touchEnded(ofxCvTrackedBlob blob);
 		
 	private:
 	
@@ -26,6 +30,7 @@ class TouchesController
 		void updatePlaying();
 		void showAllBut(int leaveOut, bool hideDrawing = false);
 		void hideAllBut(int leaveOut, bool hideDrawing = false);
+		void findClosest(int index);
 		
 		vector <TouchController*> touches;
 		
