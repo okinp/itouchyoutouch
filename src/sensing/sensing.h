@@ -25,6 +25,7 @@ public:
     int cheight;
 	int threshold;
 	bool bLearnBakground;
+	bool show;
     ofVideoGrabber  vidGrabber;
     ofxCvColorImage  colorImg;
     ofxCvGrayscaleImage  grayImg;
