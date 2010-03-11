@@ -13,35 +13,32 @@ class sensing
 	
 public:
 	
-	ofxCvBlobTracker  blobTracker;	
-	bool bLearnBakground;
-	bool show;
-	sensing(ofxCvBlobListener * listener);
 	void update();
 	void draw();
-	vector <ofxCvTrackedBlob> getBlobs();
-	
-private:
-	
+	sensing(ofxCvBlobListener * listener);
 	int cwidth;
     int cheight;
 	int threshold;
-<<<<<<< HEAD
-	int minArea;
-	
-=======
 	bool bLearnBakground;
 	bool show;
 	int area;
->>>>>>> ef4f6c47e776c1f38d9a2201f86e957fba6da9da
     ofVideoGrabber  vidGrabber;
     ofxCvColorImage  colorImg;
     ofxCvGrayscaleImage  grayImg;
     ofxCvGrayscaleImage  bgImg;
     ofxCvContourFinder  contourFinder;
 	
+	ofxCvBlobTracker blobTracker;
 	ofxFBOTexture outputTexture;
 	int blurAmount;
+<<<<<<< HEAD
+	bool myButton;
+	ofImage mask;
+	unsigned char * maskPixels;
+	unsigned char * grayPixels;
 	
 	
+=======
+	bool disabled;
+>>>>>>> 4e1efe1d5b9eea3f55ede4d19149cbbbe1d07290
 };

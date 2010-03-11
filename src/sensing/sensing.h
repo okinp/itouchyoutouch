@@ -29,10 +29,8 @@ public:
     ofxCvContourFinder  contourFinder;
     ofxCvBlobTracker  blobTracker;	
 	//sensing();
-	sensing(ofxCvBlobListener * listener);
-	void update();
-	void draw();
 	vector <ofxCvTrackedBlob> getBlobs();
+	bool disabled;
 private:
 	ofxFBOTexture outputTexture;
 	int blurAmount;
@@ -41,6 +39,4 @@ private:
 	unsigned char * maskPixels;
 	unsigned char * grayPixels;
 	
-	
-	bool disabled;
 };

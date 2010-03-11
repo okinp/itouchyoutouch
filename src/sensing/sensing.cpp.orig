@@ -2,28 +2,48 @@
 
 sensing::sensing(ofxCvBlobListener * listener)
 {
+	disabled = true;
 	cwidth = VIDEO_WIDTH;
     cheight = VIDEO_HEIGHT;
 	threshold = 60;
-	area=20;
+	blurAmount = 11;
+	area = 4500;
 	bLearnBakground = true;
+<<<<<<< HEAD
+	show=false;
+	myButton=false;
+=======
 	show = false;
 	
+>>>>>>> 4e1efe1d5b9eea3f55ede4d19149cbbbe1d07290
 	vidGrabber.initGrabber( cwidth, cheight );
 	colorImg.allocate( cwidth, cheight );
 	grayImg.allocate( cwidth, cheight );
 	bgImg.allocate( cwidth, cheight );
 	outputTexture.allocate(cwidth, cheight, GL_RGB);
+	mask.loadImage("mask.png");
+	mask.setImageType(OF_IMAGE_GRAYSCALE);
+	maskPixels =mask.getPixels();
 	blobTracker.setListener(listener);
-	
 	gui.addTitle("Input");
 	gui.addContent("Input", outputTexture);
 	gui.addSlider("Threshold", threshold , 0.0, 255);
 	gui.addSlider("Bluring", blurAmount , 0, 40);
 	gui.addContent("Difference", grayImg);
+<<<<<<< HEAD
 	gui.addSlider("Area",area,10,6000);	
+	gui.addToggle("Mask", myButton);
+=======
+	gui.addSlider("Area",area, 10, 6000);
+	gui.addToggle("Disabled", disabled);
+>>>>>>> 4e1efe1d5b9eea3f55ede4d19149cbbbe1d07290
 	gui.show();
-
+	//
+	for (int i=0; i<cwidth*cheight; i++) {
+		if (maskPixels[i]!=0){
+			maskPixels[i]==1;			
+		} 
+	}
 }
 void sensing::update()
 {
@@ -44,16 +64,18 @@ void sensing::update()
         grayImg.absDiff( bgImg );
         grayImg.blur( blurAmount );
         grayImg.threshold( threshold );
-		
+		grayPixels = grayImg.getPixels();
+		if (myButton) {
+			for (int i=0; i<cwidth*cheight; i++) {
+				grayPixels[i]=maskPixels[i]&&grayPixels[i]; 
+			}
+			grayImg.setFromPixels(grayPixels, cwidth,cheight);
+		}
         //findContures( img, minSize, maxSize, nMax, inner contours yes/no )
-<<<<<<< HEAD
-        contourFinder.findContours(grayImg, 10,20000, 10, false);
-        blobTracker.trackBlobs(contourFinder.blobs );
-=======
         contourFinder.findContours( grayImg, area, 300000, 20, false );
         blobTracker.trackBlobs( contourFinder.blobs );
->>>>>>> ef4f6c47e776c1f38d9a2201f86e957fba6da9da
     }
+	//cout <<	myButton <<endl;
 }
 
 void sensing::draw()
@@ -70,10 +92,5 @@ void sensing::draw()
 		//grayImg.draw( 360,200 );
 		ofDrawBitmapString( "Press B to learn background", 100, 510);
 	}
-}
-
-vector <ofxCvTrackedBlob> sensing::getBlobs()
-{
-	return blobTracker.blobs;
 }
 
