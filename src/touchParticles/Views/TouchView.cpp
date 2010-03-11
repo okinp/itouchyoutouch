@@ -5,6 +5,7 @@ _______________________________________________________________________ */
 
 TouchView::TouchView() 
 {
+	flare.loadImage("flare.png");
 }
 
 /* Init
@@ -153,7 +154,15 @@ void TouchView::spawn(int i)
  _______________________________________________________________________ */
 
 void TouchView::render() 
-{			
+{		
+	if(model->drawing)
+	{
+		ofSetColor(0xFFFFFF);
+		ofEnableAlphaBlending();
+		flare.draw(model->getCurPos().x - (flare.width / 2), model->getCurPos().y - (flare.height / 2));
+		ofDisableAlphaBlending();
+	}
+	
 	glEnable(GL_TEXTURE_2D);	// Tells OpenGL that we want ot draw a 2d teture
 	
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY); // Enables the Texture coordinate array for drawing with glDrawArrays or glDrawElements calls 
@@ -182,14 +191,18 @@ void TouchView::render()
 	ofEnableArbTex();	
 	
 	ofEnableAlphaBlending();
+	
+	// rune stuff
 	texture.getTextureReference().bind();
 	
 	glDrawArrays(GL_QUADS, 0, MAX_PARTICLES*4);  // render all array data we putted in VBO's as quads, at index 0, and to the end of the arrays
 	
 	texture.getTextureReference().unbind();
+	
 	ofDisableAlphaBlending();
 	
 	ofDisableArbTex();
+	
 	glEnable(GL_DEPTH_TEST);
 	
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

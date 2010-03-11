@@ -23,6 +23,7 @@ public:
 	int getTotal();
 	
 	ofImage		texture;
+	ofImage		flare;
 	TouchModel * model;
 	
 private:

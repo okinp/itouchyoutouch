@@ -21,7 +21,7 @@ TouchesController::TouchesController()
  ___________________________________________________________ */
 
 void TouchesController::load()
-{
+{	
 	// Load textures
 	for(int i = 0; i < NUM_TEXTURES; i++)
 	{
@@ -161,13 +161,14 @@ void TouchesController::connectionStopped(int drawing, int playing)
 	touches[playing]->setTexture(textures[0], NUM_ROWS, NUM_COLS);
 	touches[drawing]->setTexture(textures[0], NUM_ROWS, NUM_COLS);
 	
-	//touches[playing]->getModel()->drawingModel = 0;
 	touches[playing]->reset();
-	
-	//touches[drawing]->getModel()->playingModel = 0;
-	//touches[drawing]->getModel()->hasPlaying = DISABLED;
 	touches[drawing]->reset();
 	
+	// if touch created bond with other touch than the one it's playing with, and the bond is de-active, hide it
+	if(touches[drawing]->getModel()->hasBond != DISABLED && touches[touches[drawing]->getModel()->hasBond]->isAllowed())
+	{
+		touches[touches[drawing]->getModel()->hasBond]->reset();
+	}
 }
 
 /* Touch Events
@@ -207,7 +208,7 @@ void TouchesController::touchEnded(int blobid)
 			{				
 				connectionStopped(i, touches[i]->getModel()->hasPlaying);
 			}
-			else if(touches[i]->getModel()->hasBond != DISABLED)
+			else if(touches[i]->getModel()->hasBond != DISABLED && touches[touches[i]->getModel()->hasBond]->isAllowed())
 			{
 				touches[touches[i]->getModel()->hasBond]->reset();
 				touches[i]->reset();
@@ -217,7 +218,7 @@ void TouchesController::touchEnded(int blobid)
 				touches[i]->reset();
 			}
 			
-			touches[i]->save();
+			//touches[i]->save();
 			
 			numDrawing--;
 			

@@ -4,7 +4,7 @@
  ___________________________________________________________ */
 
 TouchController::TouchController(int blobid)
-{
+{	
 	model = new TouchModel();
 	
 	model->blobid = blobid;
@@ -47,7 +47,6 @@ void TouchController::draw()
 {	
 	view.render();
 	
-	// just for testing
 	if(DEBUG)
 	{
 		if(model->playing)
