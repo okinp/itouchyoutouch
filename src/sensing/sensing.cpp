@@ -2,10 +2,12 @@
 
 sensing::sensing(ofxCvBlobListener * listener)
 {
+	disabled = true;
 	cwidth = VIDEO_WIDTH;
     cheight = VIDEO_HEIGHT;
 	threshold = 60;
-	area=20;
+	blurAmount = 11;
+	area = 4500;
 	bLearnBakground = true;
 	show=false;
 	myButton=false;
@@ -18,6 +20,7 @@ sensing::sensing(ofxCvBlobListener * listener)
 	mask.setImageType(OF_IMAGE_GRAYSCALE);
 	maskPixels =mask.getPixels();
 	blobTracker.setListener(listener);
+	
 	gui.addTitle("Input");
 	gui.addContent("Input", outputTexture);
 	gui.addSlider("Threshold", threshold , 0.0, 255);
@@ -25,6 +28,8 @@ sensing::sensing(ofxCvBlobListener * listener)
 	gui.addContent("Difference", grayImg);
 	gui.addSlider("Area",area,10,6000);	
 	gui.addToggle("Mask", myButton);
+	gui.addSlider("Area",area, 10, 6000);
+	gui.addToggle("Disabled", disabled);
 	gui.show();
 	//
 	for (int i=0; i<cwidth*cheight; i++) {

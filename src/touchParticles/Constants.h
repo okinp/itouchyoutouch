@@ -3,6 +3,7 @@ _______________________________________________________________________ */
 
 #define FOLDER "touchdata/"
 #define PROXIMITY 100
+#define PROXIMITY_NEIGHBOUR 300
 #define MAX_PARTICLES 5000
 #define DELETE_PAIRED true
 #define SIM_ALLOWED_TOUCHES 1
@@ -17,7 +18,6 @@ _______________________________________________________________________ */
 _______________________________________________________________________ */
 
 #define TOUCH "touch"
-#define CENTER "center"
 
 #define OUTLINE "outline"
 #define PATH "path"

@@ -9,10 +9,10 @@
     </SliderInt_Bluring>
     <SliderInt_Area>
         <name>Area</name>
-        <value>20</value>
+        <value>4500</value>
     </SliderInt_Area>
-    <Toggle_Mask>
-        <name>Mask</name>
+    <Toggle_Disabled>
+        <name>Disabled</name>
         <value>0</value>
-    </Toggle_Mask>
+    </Toggle_Disabled>
 </controls>
