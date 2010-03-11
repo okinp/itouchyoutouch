@@ -36,6 +36,7 @@ public:
 	void setDateTime();
 	void addPathPointAndScale(int xPos, int yPos, float scale);
 	void setOutlineAndScale(vector <ofPoint> newOutline, float scale);
+	void saveOutline();
 	
 	void setupParticles();
 	

@@ -12,6 +12,7 @@ public:
 	
 	vector <ofPoint> path;
 	vector <ofPoint> outline;
+	vector <ofPoint> startOutline;
 	vector <PSetting> settings;
 	int dateTime[6]; // 2010-3-4-15-36-7
 	string fileName;

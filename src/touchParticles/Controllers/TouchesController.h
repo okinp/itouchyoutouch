@@ -27,7 +27,9 @@ class TouchesController
 		void updatePlaying();
 		void showAllBut(int leaveOut, bool hideDrawing = false);
 		void hideAllBut(int leaveOut, bool hideDrawing = false);
+	
 		void findClosest(int index);
+		void showNeighbours(int index);	
 		
 		vector <TouchController*> touches;
 		

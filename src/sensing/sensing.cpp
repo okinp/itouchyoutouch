@@ -7,7 +7,7 @@ sensing::sensing(ofxCvBlobListener * listener)
     cheight = VIDEO_HEIGHT;
 	threshold = 60;
 	blurAmount = 11;
-	area = 1800;
+	area = 4500;
 	bLearnBakground = true;
 	show = false;
 	

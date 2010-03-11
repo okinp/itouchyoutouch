@@ -58,11 +58,62 @@ void TouchesController::draw()
 	}
 }
 
-/* Find closest touch
+/* Distance methods
  ___________________________________________________________ */
+
+void TouchesController::showNeighbours(int index)
+{
+	vector <int> found;
+	found.push_back(index);
+	
+	printf("There are %d touches in total \n", touches.size());
+	printf("Index is %d \n", index);
+
+	
+	for (int i = 0; i < touches.size(); i++) 
+	{
+		compare1.set(touches[i]->getModel()->getCurPos());
+		
+		bool foundLower = false;
+		
+		// compare to every found neighbour
+		for(int j = 0; j < found.size(); j++)
+		{
+			compare2.set(touches[found[j]]->getModel()->getCurPos());
+			
+			// if lower than threshold, discard
+			if(abs((int) compare1.distance(compare2)) < PROXIMITY_NEIGHBOUR)
+			{
+				printf("Touch %d with x: %f y: %f is lower than found %d with x: %f y: %f \n", i, touches[i]->getModel()->getCurPos().x, touches[i]->getModel()->getCurPos().y, found[j], touches[found[j]]->getModel()->getCurPos().x, touches[found[j]]->getModel()->getCurPos().y);
+				
+				foundLower = true;
+			}
+			else {
+				printf("Touch %d with x: %f y: %f is higher than found %d with x: %f y: %f \n", i, touches[i]->getModel()->getCurPos().x, touches[i]->getModel()->getCurPos().y, j, touches[found[j]]->getModel()->getCurPos().x, touches[found[j]]->getModel()->getCurPos().y);
+			}
+
+		}
+		
+		if(!foundLower)
+		{
+			found.push_back(i);
+			
+			printf("Saved %d in found\n", i);
+		}
+	}
+	
+	printf("Found: %zd \n", found.size());
+	
+	for(int i = 0; i < found.size(); i++)
+	{
+		touches[found[i]]->show();
+	}
+}
 
 void TouchesController::findClosest(int index)
 {
+	// THIS SHOULD ONLY WORK ON VISIBLE TOUCHES
+	
 	compare1.set(touches[index]->getModel()->getCurPos());
 	
 	for(int i = 0; i < touches.size(); i++)
@@ -85,24 +136,23 @@ void TouchesController::findClosest(int index)
 void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint centroid)
 {
 	if(numDrawing < SIM_ALLOWED_TOUCHES)
-	{
-		printf("Adding touch \n");
-		
+	{		
 		TouchController * touch = new TouchController(blobid);
 		touch->setupParticles();
 		touch->setDateTime();
 		touch->getModel()->drawing = true;
 		touch->addPathPointAndScale(centroid.x, centroid.y, outlineScale);
 		touch->setOutlineAndScale(pts, outlineScale);
+		touch->saveOutline(); // this sets the outline used for playback
+		touch->show();
 		
-		// jsut to test
-		//touch->getModel()->visible = true;
+		printf("Touches size before pushing new touch: %zd \n", touches.size());
 		
 		touches.push_back(touch);
 		
-		numDrawing++;
+		showNeighbours(touches.size() - 1);
 		
-		//showAllBut(-1);
+		numDrawing++;
 	}
 }
 

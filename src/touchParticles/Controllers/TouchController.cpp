@@ -64,6 +64,11 @@ void TouchController::draw()
 			ofCircle(model->outline[i].x, model->outline[i].y, 3);
 		}*/
 	}
+	else {
+		ofSetColor(255, 255, 255);
+		ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
+	}
+
 }
 
 
@@ -76,11 +81,9 @@ void TouchController::play()
 }
 
 void TouchController::reset()
-{
-	printf("touch resetted");
-	
+{	
 	model->playing = false;
-	model->visible = false;
+	//model->visible = false;
 	model->playHead = 0;
 	model->blobid = -1;
 }
@@ -168,7 +171,6 @@ void TouchController::loadXML()
 		//printf("Outside Size: %d \n", model->outline.size());
 		view.setModel(model);
 	}
-	
 }
 
 void TouchController::save()
@@ -182,11 +184,11 @@ void TouchController::save()
 
 	_xml.addTag(OUTLINE);
 	_xml.pushTag(OUTLINE, 0);
-	for(int i = 0; i < model->outline.size(); i++)
+	for(int i = 0; i < model->startOutline.size(); i++)
 	{
 		_xml.addTag(POINT);
-		_xml.addAttribute(POINT, X, ofToString(model->outline[i].x, 1), i);
-		_xml.addAttribute(POINT, Y, ofToString(model->outline[i].y, 1), i);
+		_xml.addAttribute(POINT, X, ofToString(model->startOutline[i].x, 1), i);
+		_xml.addAttribute(POINT, Y, ofToString(model->startOutline[i].y, 1), i);
 	}
 	_xml.popTag();
 	
@@ -250,6 +252,11 @@ void TouchController::setOutlineAndScale(vector <ofPoint> newOutline, float scal
 	}
 	
 	model->outline = newOutline;
+}
+
+void TouchController::saveOutline()
+{
+	model->startOutline = model->outline;
 }
 
 void TouchController::setDateTime()
