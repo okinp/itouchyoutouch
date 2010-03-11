@@ -109,12 +109,11 @@ void TouchView::spawn(int i)
 			center.x = 150;
 			center.y = 200;
 			
-			ofxVec2f direction; 
-			direction.x = thePoint.x - center.x;
-			direction.y = thePoint.y - center.y;
+			ofxVec2f direction;
+			direction.set(thePoint - model->getCurPos());
 			direction.normalize();
 			
-			setParticlePos(i, thePoint.x + model->getX(), thePoint.y + model->getY());
+			setParticlePos(i, thePoint.x, thePoint.y);
 			setParticleTexCoords(i, (int)ofRandom(0, 2), (int)ofRandom(0, 2));
 			
 			direction *= ofRandom(model->settings[j].dirMin, model->settings[j].dirMax);

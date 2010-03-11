@@ -9,8 +9,6 @@ class TouchModel
 public:
 
 	int blobid;
-
-	PVector center;
 	
 	vector <ofPoint> path;
 	vector <ofPoint> outline;
@@ -28,11 +26,11 @@ public:
 	TouchModel()
 	{
 		hasPlaying = DISABLED;
-		visible = false;
+		visible = true;
 		drawing = false;
 		
 		PSetting setting1;
-		setting1.percent = 0.0;
+		setting1.percent = 0.8;
 		setting1.dirMin = -0.2;
 		setting1.dirMax = -0.9;
 		setting1.lifeMin = 0.3;
@@ -40,7 +38,7 @@ public:
 		settings.push_back(setting1);
 		
 		PSetting setting2;
-		setting2.percent = 1;
+		setting2.percent = 0.2;
 		setting2.dirMin = -0.002;
 		setting2.dirMax = -0.007;
 		setting2.lifeMin = 0.1;
@@ -50,24 +48,14 @@ public:
 
 	// Location Getters
 
-	float getCenterX()
+	ofPoint getCurPos()
 	{
-		return path[playHead].x + center.x;
+		return path[playHead];
 	}
 	
-	float getCenterY()
+	ofPoint getStartPos()
 	{
-		return path[playHead].y + center.y;
-	}
-	
-	float getX()
-	{
-		return path[playHead].x;
-	}
-	
-	float getY()
-	{
-		return path[playHead].y;
+		return path[0];
 	}
 
 	// Time getters

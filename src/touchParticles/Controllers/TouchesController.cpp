@@ -6,6 +6,14 @@
 TouchesController::TouchesController()
 {
 	numDrawing = 0;
+	
+	outlineScale = ofGetWidth() / VIDEO_WIDTH;
+	int diff = (ofGetHeight() / VIDEO_HEIGHT) - outlineScale;
+	
+	if(diff != 0.0)
+	{
+		printf("ERROR: Width and height scale is wrong: %f \n", diff);
+	}
 }
 
 /* Load
@@ -20,7 +28,6 @@ void TouchesController::load()
 	
 	for(int i = 0; i < numFiles; i++)
 	{
-		printf("Creating touch \n");
 		TouchController * touch = new TouchController(DISABLED); // set -1 to show blob is saved
 		touch->setupParticles();
 		touch->load(DIR.getName(i));
@@ -56,11 +63,11 @@ void TouchesController::draw()
 
 void TouchesController::findClosest(int index)
 {
-	compare1.set(touches[index]->getCenterX(), touches[index]->getCenterY());
+	compare1.set(touches[index]->getModel()->getCurPos());
 	
 	for(int i = 0; i < touches.size(); i++)
 	{
-		compare2.set(touches[i]->getCenterX(), touches[i]->getCenterY());
+		compare2.set(touches[i]->getModel()->getStartPos());
 		
 		if(abs((int) compare1.distance(compare2)) < PROXIMITY) 
 		{
@@ -79,12 +86,17 @@ void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint c
 {
 	if(numDrawing < SIM_ALLOWED_TOUCHES)
 	{
+		printf("Adding touch \n");
+		
 		TouchController * touch = new TouchController(blobid);
 		touch->setupParticles();
 		touch->setDateTime();
 		touch->getModel()->drawing = true;
-		touch->addPathPoint(centroid.x, centroid.y);
-		touch->setOutline(pts);
+		touch->addPathPointAndScale(centroid.x, centroid.y, outlineScale);
+		touch->setOutlineAndScale(pts, outlineScale);
+		
+		// jsut to test
+		//touch->getModel()->visible = true;
 		
 		touches.push_back(touch);
 		
@@ -100,13 +112,13 @@ void TouchesController::touchMoved(int blobid, vector <ofPoint> pts, ofPoint cen
 	{
 		if (touches[i]->getModel()->blobid == blobid) 
 		{
-			touches[i]->addPathPoint(centroid.x, centroid.y);
-			touches[i]->setOutline(pts);
+			touches[i]->addPathPointAndScale(centroid.x, centroid.y, outlineScale);
+			touches[i]->setOutlineAndScale(pts, outlineScale);
 
-			/*if (touches[i]->getModel()->hasPlaying == DISABLED) 
+			if (touches[i]->getModel()->hasPlaying == DISABLED) 
 			{
-				findClosest(i);
-			}*/
+				//findClosest(i);
+			}
 
 			break;
 		}
@@ -119,6 +131,8 @@ void TouchesController::touchEnded(int blobid)
 	{
 		if (touches[i]->getModel()->blobid == blobid) 
 		{
+			printf("Removing touch \n");
+			
 			touches[i]->reset();
 			//touches[i]->save();
 			

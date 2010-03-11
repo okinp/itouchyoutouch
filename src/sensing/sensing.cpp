@@ -2,10 +2,12 @@
 
 sensing::sensing(ofxCvBlobListener * listener)
 {
+	disabled = true;
 	cwidth = VIDEO_WIDTH;
     cheight = VIDEO_HEIGHT;
 	threshold = 60;
-	area=20;
+	blurAmount = 11;
+	area = 1800;
 	bLearnBakground = true;
 	show = false;
 	
@@ -21,7 +23,8 @@ sensing::sensing(ofxCvBlobListener * listener)
 	gui.addSlider("Threshold", threshold , 0.0, 255);
 	gui.addSlider("Bluring", blurAmount , 0, 40);
 	gui.addContent("Difference", grayImg);
-	gui.addSlider("Area",area,10,6000);	
+	gui.addSlider("Area",area, 10, 6000);
+	gui.addToggle("Disabled", disabled);
 	gui.show();
 
 }
@@ -65,10 +68,5 @@ void sensing::draw()
 		//grayImg.draw( 360,200 );
 		ofDrawBitmapString( "Press B to learn background", 100, 510);
 	}
-}
-
-vector <ofxCvTrackedBlob> sensing::getBlobs()
-{
-	return blobTracker.blobs;
 }
 

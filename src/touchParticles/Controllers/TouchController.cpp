@@ -21,15 +21,6 @@ void TouchController::setupParticles()
 	view.init();
 }
 
-/* Update : Call on current touch
- ___________________________________________________________ */
-
-void TouchController::addPathPoint(int xPos, int yPos)
-{		
-	model->path.push_back(ofPoint(xPos, yPos));
-	model->playHead = model->path.size() - 1;
-}
-
 /* Update : Call on all other
  ___________________________________________________________ */
 
@@ -46,7 +37,7 @@ void TouchController::update()
 		}
 	}
 	
-	//view.update();
+	view.update();
 }
 
 /* Draw
@@ -55,18 +46,18 @@ void TouchController::update()
 
 void TouchController::draw()
 {	
-	//view.render();
+	view.render();
 	
 	// just for testing
 	if(model->playing)
 	{
 		ofSetColor(0, 255, 0);
-		ofCircle(model->getCenterX(), model->getCenterY(), 5);
+		ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
 	}
 	else if(model->drawing)
 	{
 		ofSetColor(255, 0, 0);
-		ofCircle(model->getCenterX(), model->getCenterY(), 5);
+		ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
 		
 		/*for (int i = 0; i < model->outline.size(); i++) 
 		{
@@ -86,7 +77,10 @@ void TouchController::play()
 
 void TouchController::reset()
 {
+	printf("touch resetted");
+	
 	model->playing = false;
+	model->visible = false;
 	model->playHead = 0;
 	model->blobid = -1;
 }
@@ -132,10 +126,6 @@ void TouchController::loadXML()
 	{
 		if(_xml.pushTag(TOUCH, 0))
 		{
-			// center
-			model->center.x = (float) _xml.getAttribute(CENTER, Y, 0.0, 0);
-			model->center.y = (float) _xml.getAttribute(CENTER, Y, 0.0, 0);
-			
 			// Outline
 			if(_xml.pushTag(OUTLINE, 0))
 			{
@@ -189,12 +179,7 @@ void TouchController::save()
 	
 	_xml.addTag(TOUCH);
 	_xml.pushTag(TOUCH, 0);
-	
-	_xml.addTag(CENTER);
-	
-	_xml.addAttribute(CENTER, X, ofToString(model->center.x, 1), 0);
-	_xml.addAttribute(CENTER, Y, ofToString(model->center.y, 1), 0);
-	
+
 	_xml.addTag(OUTLINE);
 	_xml.pushTag(OUTLINE, 0);
 	for(int i = 0; i < model->outline.size(); i++)
@@ -249,6 +234,24 @@ void TouchController::save()
 /* Setters
  ___________________________________________________________ */
 
+void TouchController::addPathPointAndScale(int xPos, int yPos, float scale)
+{		
+	model->path.push_back(ofPoint(xPos * scale, yPos * scale));
+	model->playHead = model->path.size() - 1;
+}
+
+void TouchController::setOutlineAndScale(vector <ofPoint> newOutline, float scale)
+{
+	model->outline.clear();
+	
+	for(int i = 0; i < newOutline.size(); i++)
+	{
+		newOutline[i] *= scale;
+	}
+	
+	model->outline = newOutline;
+}
+
 void TouchController::setDateTime()
 {
 	model->dateTime[0] = ofGetYear();
@@ -262,37 +265,6 @@ void TouchController::setDateTime()
 void TouchController::setFileName(string fileName)
 {
 	model->fileName = fileName;
-}
-
-void TouchController::setOutline(vector <ofPoint> newOutline)
-{
-	model->outline.clear();
-	model->outline = newOutline;
-}
-
-void TouchController::setTestOutline()
-{
-	// just a test outline/ for new touches
-	ofPoint p1;
-	model->outline.push_back(p1);
-	p1.x += 30;
-	model->outline.push_back(p1);
-	p1.y += 30;
-	model->outline.push_back(p1);
-	p1.x -= 30;
-	model->outline.push_back(p1);
-	p1.y -= 30;
-	model->outline.push_back(p1);
-}
-
-float TouchController::getCenterX()
-{
-	return model->getCenterX();
-}
-
-float TouchController::getCenterY()
-{
-	return model->getCenterY();
 }
 
 TouchModel * TouchController::getModel()

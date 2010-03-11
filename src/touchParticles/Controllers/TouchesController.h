@@ -35,4 +35,5 @@ class TouchesController
 		ofxVec2f compare2;
 	
 		int numDrawing;
+		int outlineScale;
 };

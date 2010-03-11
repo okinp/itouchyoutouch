@@ -3,7 +3,7 @@
 
 void testApp::setup() 
 {
-    ofSetFrameRate( 60 );
+	ofSetFrameRate(60);
 	ofBackground( 0, 0, 0 );
 	
 	mySensing = new sensing(this);
@@ -15,13 +15,13 @@ void testApp::setup()
 void testApp::update() 
 {	
 	mySensing->update();
-	//touches->update();
+	touches->update();
 }
 
 void testApp::draw() 
-{
+{	
 	mySensing->draw();
-	//touches->draw();
+	touches->draw();
 }
 
 void testApp::keyPressed( int key ) 
@@ -47,22 +47,30 @@ void testApp::mouseReleased() {}
 
 
 void testApp::blobOn( int x, int y, int id, int order ) 
-{	
-	ofxCvTrackedBlob blob = mySensing->blobTracker.getById(id);
-	
-	touches->touchStarted(blob.id, blob.pts, blob.centroid);	
+{
+	if(!mySensing->disabled)
+	{		
+		ofxCvTrackedBlob blob = mySensing->blobTracker.getById(id);
+		
+		touches->touchStarted(blob.id, blob.pts, blob.centroid);	
+	}
 }
 
 void testApp::blobMoved( int x, int y, int id, int order)
 {
-    ofxCvTrackedBlob blob = mySensing->blobTracker.getById( id );
+	if(!mySensing->disabled)
+	{	
+		ofxCvTrackedBlob blob = mySensing->blobTracker.getById( id );
 	
-	touches->touchMoved(blob.id, blob.pts, blob.centroid);
-
+		touches->touchMoved(blob.id, blob.pts, blob.centroid);
+	}
 }
 void testApp::blobOff( int x, int y, int id, int order ) 
-{
-	touches->touchEnded(id);
+{	
+	if(!mySensing->disabled)
+	{
+		touches->touchEnded(id);
+	}
 }
 
 
