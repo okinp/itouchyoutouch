@@ -14,7 +14,7 @@ public:
 	TouchView();
 	
 	void setModel(TouchModel * newModel);
-	void loadTexture(string path, int cellsInRow, int cellsInCol);
+	void setTexture(ofImage newTexture, int cellsInRow, int cellsInCol);
 	
 	void init();
 	void update();

@@ -337,13 +337,14 @@ void TouchView::addPosition(int i, float x, float y, float z)
 	pos[(i*4)+3].z += z;
 }
 
-/* Load texture
+/* Set texture
 _______________________________________________________________________ */
 
-void TouchView::loadTexture(string path, int cellsInRow, int cellsInCol) 
+void TouchView::setTexture(ofImage newTexture, int cellsInRow, int cellsInCol) 
 {
 	ofDisableArbTex();
-	texture.loadImage(path);
+	//texture.loadImage(path);
+	texture = newTexture;
 	ofEnableArbTex();
 	
 	texW = texture.getWidth();

@@ -23,6 +23,7 @@ class TouchesController
 		
 	private:
 	
+		void loadTextures();
 		void checkDistance();
 		void updatePlaying();
 		void showAllBut(int leaveOut, bool hideDrawing = false);
@@ -31,6 +32,8 @@ class TouchesController
 		void findClosest(int index);
 		void showNeighbours(int index);	
 		
+		int nextTexture();
+		
 		vector <TouchController*> touches;
 		
 		ofxVec2f compare1;
@@ -38,4 +41,8 @@ class TouchesController
 	
 		int numDrawing;
 		int outlineScale;
+	
+		ofImage textures[NUM_TEXTURES];
+	
+		int curTexture;
 };

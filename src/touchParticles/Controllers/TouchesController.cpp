@@ -6,9 +6,10 @@
 TouchesController::TouchesController()
 {
 	numDrawing = 0;
+	curTexture = 1;
 	
 	outlineScale = ofGetWidth() / VIDEO_WIDTH;
-	int diff = (ofGetHeight() / VIDEO_HEIGHT) - outlineScale;
+	float diff = (ofGetHeight() / VIDEO_HEIGHT) - outlineScale;
 	
 	if(diff != 0.0)
 	{
@@ -21,6 +22,16 @@ TouchesController::TouchesController()
 
 void TouchesController::load()
 {
+	// Load textues
+	
+	for(int i = 0; i < NUM_TEXTURES; i++)
+	{
+		textures[i].loadImage("particleGrid" + ofToString(i, 0) + ".png");
+	}
+	
+	
+	// Load XML files
+	
 	ofxDirList DIR;
 	DIR.allowExt("xml");
 	
@@ -29,7 +40,8 @@ void TouchesController::load()
 	for(int i = 0; i < numFiles; i++)
 	{
 		TouchController * touch = new TouchController(DISABLED); // set -1 to show blob is saved
-		touch->setupParticles();
+		touch->setTexture(textures[0], NUM_ROWS, NUM_COLS);
+		touch->init();
 		touch->load(DIR.getName(i));
 		
 		touches.push_back(touch);
@@ -149,7 +161,9 @@ void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint c
 	if(numDrawing < SIM_ALLOWED_TOUCHES)
 	{		
 		TouchController * touch = new TouchController(blobid);
-		touch->setupParticles();
+		//touch->setupParticles();
+		touch->setTexture(textures[0], NUM_ROWS, NUM_COLS);
+		touch->init();
 		touch->setDateTime();
 		touch->getModel()->drawing = true;
 		touch->addPathPointAndScale(centroid.x, centroid.y, outlineScale);
@@ -186,6 +200,21 @@ void TouchesController::touchEnded(int blobid)
 			break;
 		}
 	}
+}
+
+/* Next Texture
+ ___________________________________________________________ */
+
+int TouchesController::nextTexture()
+{
+	curTexture++;
+	
+	if(curTexture > NUM_TEXTURES - 1)
+	{
+		curTexture = 1;
+	}
+	
+	return curTexture;
 }
 
 /* Show / Hide all

@@ -22,6 +22,8 @@ public:
 	void loadXML();
 	void loadParticles();
 	
+	void init();
+	
 	void update();
 	void updateCommon();
 	void draw();
@@ -33,6 +35,7 @@ public:
 	
 	bool checkStopped();
 	
+	void setTexture(ofImage newTexture, int cellsInRow, int cellsInCol);
 	void setDateTime();
 	void addPathPointAndScale(int xPos, int yPos, float scale);
 	void setOutlineAndScale(vector <ofPoint> newOutline, float scale);

@@ -7,6 +7,9 @@ _______________________________________________________________________ */
 #define MAX_PARTICLES 5000
 #define DELETE_PAIRED true
 #define SIM_ALLOWED_TOUCHES 10
+#define NUM_TEXTURES 5
+#define NUM_ROWS 2
+#define NUM_COLS 2
 
 /* Video Size
  _______________________________________________________________________ */

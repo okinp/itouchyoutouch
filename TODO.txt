@@ -1,5 +1,7 @@
 TODO:
 
+* Different color on touches.
+* gravity when hasPlaying
 * Show / hide touches on multitouch
 * When saving, only save if path is higher than a certain threshold (size 600 = 10 sec)
 * Delete touches that was paired

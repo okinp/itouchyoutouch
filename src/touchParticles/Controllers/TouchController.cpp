@@ -15,9 +15,8 @@ TouchController::TouchController(int blobid)
 	view.setModel(model);
 }
 
-void TouchController::setupParticles()
+void TouchController::init()
 {
-	view.loadTexture("particleGrid2.png", 2, 2);
 	view.init();
 }
 
@@ -278,6 +277,11 @@ void TouchController::setDateTime()
 	model->dateTime[3] = ofGetHours();
 	model->dateTime[4] = ofGetMinutes();
 	model->dateTime[5] = ofGetSeconds();
+}
+
+void TouchController::setTexture(ofImage newTexture, int cellsInRow, int cellsInCol) 
+{
+	view.setTexture(newTexture, cellsInRow, cellsInCol);
 }
 
 void TouchController::setFileName(string fileName)
