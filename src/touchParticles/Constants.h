@@ -2,11 +2,11 @@
 _______________________________________________________________________ */
 
 #define FOLDER "touchdata/"
-#define PROXIMITY 100
-#define PROXIMITY_NEIGHBOUR 300
+#define PROXIMITY 300
+#define PROXIMITY_NEIGHBOUR 400
 #define MAX_PARTICLES 5000
 #define DELETE_PAIRED true
-#define SIM_ALLOWED_TOUCHES 4
+#define SIM_ALLOWED_TOUCHES 10
 
 /* Video Size
  _______________________________________________________________________ */
@@ -18,7 +18,6 @@ _______________________________________________________________________ */
 _______________________________________________________________________ */
 
 #define TOUCH "touch"
-
 #define OUTLINE "outline"
 #define PATH "path"
 #define DATETIME "datetime"

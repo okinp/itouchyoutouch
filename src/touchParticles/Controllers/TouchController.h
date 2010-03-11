@@ -38,6 +38,8 @@ public:
 	void setOutlineAndScale(vector <ofPoint> newOutline, float scale);
 	void saveOutline();
 	
+	bool isAllowed();
+	
 	void setupParticles();
 	
 	TouchModel * getModel();

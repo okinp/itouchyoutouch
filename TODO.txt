@@ -1,8 +1,10 @@
 TODO:
 
 * Show / hide touches on multitouch
-* Two drawing hands should not be playing each other
 * When saving, only save if path is higher than a certain threshold (size 600 = 10 sec)
 * Delete touches that was paired
-* Save gui in XML
-* Fix calibration
+* Make Particles look good
+Nik * Save gui in XML
+Nik * Fix calibration
+
+Rune: Skipped for mid-term  * Two drawing hands should not be playing each other

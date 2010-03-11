@@ -235,6 +235,18 @@ void TouchController::save()
 /* Setters
  ___________________________________________________________ */
 
+bool TouchController::isAllowed()
+{
+	printf("Drawing: %d \n", model->drawing);
+	
+	if(model->playing || model->drawing || !model->visible)
+	{
+		return false;
+	}
+	
+	return true;
+}
+
 void TouchController::addPathPointAndScale(int xPos, int yPos, float scale)
 {		
 	model->path.push_back(ofPoint(xPos * scale, yPos * scale));

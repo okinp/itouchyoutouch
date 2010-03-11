@@ -131,7 +131,7 @@ void TouchesController::findClosest(int index)
 	{
 		compare2.set(touches[i]->getModel()->getStartPos());
 		
-		if(abs((int) compare1.distance(compare2)) < PROXIMITY && i != index && touches[i]->getModel()->visible) 
+		if(abs((int) compare1.distance(compare2)) < PROXIMITY && i != index && touches[i]->isAllowed()) 
 		{
 			touches[i]->play();
 			touches[index]->getModel()->hasPlaying = i;
