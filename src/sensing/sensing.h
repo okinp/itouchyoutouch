@@ -32,6 +32,10 @@ public:
 private:
 	ofxFBOTexture outputTexture;
 	int blurAmount;
+	bool myButton;
+	ofImage mask;
+	unsigned char * maskPixels;
+	unsigned char * grayPixels;
 	
 	
 };

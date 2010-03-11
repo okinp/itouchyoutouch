@@ -8,22 +8,30 @@ sensing::sensing(ofxCvBlobListener * listener)
 	area=20;
 	bLearnBakground = true;
 	show=false;
-	
+	myButton=false;
 	vidGrabber.initGrabber( cwidth, cheight );
 	colorImg.allocate( cwidth, cheight );
 	grayImg.allocate( cwidth, cheight );
 	bgImg.allocate( cwidth, cheight );
 	outputTexture.allocate(cwidth, cheight, GL_RGB);
+	mask.loadImage("mask.png");
+	mask.setImageType(OF_IMAGE_GRAYSCALE);
+	maskPixels =mask.getPixels();
 	blobTracker.setListener(listener);
-	
 	gui.addTitle("Input");
 	gui.addContent("Input", outputTexture);
 	gui.addSlider("Threshold", threshold , 0.0, 255);
 	gui.addSlider("Bluring", blurAmount , 0, 40);
 	gui.addContent("Difference", grayImg);
 	gui.addSlider("Area",area,10,6000);	
+	gui.addToggle("Mask", myButton);
 	gui.show();
-
+	//
+	for (int i=0; i<cwidth*cheight; i++) {
+		if (maskPixels[i]!=0){
+			maskPixels[i]==1;			
+		} 
+	}
 }
 void sensing::update()
 {
@@ -44,11 +52,18 @@ void sensing::update()
         grayImg.absDiff( bgImg );
         grayImg.blur( blurAmount );
         grayImg.threshold( threshold );
-		
+		grayPixels = grayImg.getPixels();
+		if (myButton) {
+			for (int i=0; i<cwidth*cheight; i++) {
+				grayPixels[i]=maskPixels[i]&&grayPixels[i]; 
+			}
+			grayImg.setFromPixels(grayPixels, cwidth,cheight);
+		}
         //findContures( img, minSize, maxSize, nMax, inner contours yes/no )
         contourFinder.findContours( grayImg, area, 300000, 20, false );
         blobTracker.trackBlobs( contourFinder.blobs );
     }
+	//cout <<	myButton <<endl;
 }
 
 void sensing::draw()
