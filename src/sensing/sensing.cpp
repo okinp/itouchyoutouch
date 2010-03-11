@@ -5,9 +5,9 @@ sensing::sensing(ofxCvBlobListener * listener)
 	disabled = true;
 	cwidth = VIDEO_WIDTH;
     cheight = VIDEO_HEIGHT;
-	threshold = 60;
-	blurAmount = 11;
-	area = 4500;
+	threshold = 61;
+	blurAmount = 0;
+	area = 300;
 	bLearnBakground = true;
 	show=false;
 	myButton=false;
@@ -28,7 +28,6 @@ sensing::sensing(ofxCvBlobListener * listener)
 	gui.addContent("Difference", grayImg);
 	gui.addSlider("Area",area,10,6000);	
 	gui.addToggle("Mask", myButton);
-	gui.addSlider("Area",area, 10, 6000);
 	gui.addToggle("Disabled", disabled);
 	gui.show();
 	//

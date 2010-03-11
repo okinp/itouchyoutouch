@@ -6,7 +6,7 @@ _______________________________________________________________________ */
 #define PROXIMITY_NEIGHBOUR 300
 #define MAX_PARTICLES 5000
 #define DELETE_PAIRED true
-#define SIM_ALLOWED_TOUCHES 1
+#define SIM_ALLOWED_TOUCHES 4
 
 /* Video Size
  _______________________________________________________________________ */

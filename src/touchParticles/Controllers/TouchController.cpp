@@ -58,13 +58,9 @@ void TouchController::draw()
 	{
 		ofSetColor(255, 0, 0);
 		ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
-		
-		/*for (int i = 0; i < model->outline.size(); i++) 
-		{
-			ofCircle(model->outline[i].x, model->outline[i].y, 3);
-		}*/
 	}
-	else {
+	else 
+	{
 		ofSetColor(255, 255, 255);
 		ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
 	}
@@ -83,6 +79,7 @@ void TouchController::play()
 void TouchController::reset()
 {	
 	model->playing = false;
+	model->drawing = false;
 	//model->visible = false;
 	model->playHead = 0;
 	model->blobid = -1;
@@ -92,6 +89,8 @@ bool TouchController::checkStopped()
 {	
 	if (model->playing && model->playHead == model->path.size() - 1) 
 	{		
+		reset();
+		
 		return true;
 	}
 	

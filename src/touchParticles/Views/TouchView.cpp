@@ -113,6 +113,14 @@ void TouchView::spawn(int i)
 			direction.set(thePoint - model->getCurPos());
 			direction.normalize();
 			
+			// This makes sure the outline is moving if playing
+			if(model->playing)
+			{
+				ofPoint diff = model->getCurPos() - model->getStartPos();
+				
+				thePoint += diff;
+			}
+			
 			setParticlePos(i, thePoint.x, thePoint.y);
 			setParticleTexCoords(i, (int)ofRandom(0, 2), (int)ofRandom(0, 2));
 			

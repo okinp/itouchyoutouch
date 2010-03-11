@@ -15,6 +15,14 @@ void testApp::setup()
 void testApp::update() 
 {	
 	mySensing->update();
+	
+	for(int i = 0; i < mySensing->blobTracker.blobs.size(); i++)
+	{
+		// if this ever fucks up, it's because ids arent the same as vector index
+		ofxCvTrackedBlob& blob = mySensing->blobTracker.blobs[i];
+		touches->touchMoved(blob.id, blob.pts, blob.centroid);
+	}
+	
 	touches->update();
 }
 
@@ -58,12 +66,12 @@ void testApp::blobOn( int x, int y, int id, int order )
 
 void testApp::blobMoved( int x, int y, int id, int order)
 {
-	if(!mySensing->disabled)
+	/*if(!mySensing->disabled)
 	{	
 		ofxCvTrackedBlob blob = mySensing->blobTracker.getById( id );
 	
 		touches->touchMoved(blob.id, blob.pts, blob.centroid);
-	}
+	}*/
 }
 void testApp::blobOff( int x, int y, int id, int order ) 
 {	

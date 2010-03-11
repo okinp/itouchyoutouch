@@ -1,25 +1,22 @@
 <controls>
     <SliderInt_Threshold>
         <name>Threshold</name>
-        <value>8</value>
+        <value>61</value>
     </SliderInt_Threshold>
     <SliderInt_Bluring>
         <name>Bluring</name>
-        <value>11</value>
+        <value>0</value>
     </SliderInt_Bluring>
     <SliderInt_Area>
         <name>Area</name>
-        <value>4500</value>
-        <name>Area</name>
-        <value>4500</value>
+        <value>300</value>
     </SliderInt_Area>
     <Toggle_Mask>
         <name>Mask</name>
-        <value>1</value>
+        <value>0</value>
     </Toggle_Mask>
-    <SliderInt_Area></SliderInt_Area>
     <Toggle_Disabled>
         <name>Disabled</name>
-        <value>1</value>
+        <value>0</value>
     </Toggle_Disabled>
 </controls>

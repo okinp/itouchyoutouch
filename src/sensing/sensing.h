@@ -13,9 +13,11 @@ class sensing
 	
 public:
 	
+	sensing(ofxCvBlobListener * listener);
+	
 	void update();
 	void draw();
-	sensing(ofxCvBlobListener * listener);
+	
 	int cwidth;
     int cheight;
 	int threshold;
@@ -28,10 +30,11 @@ public:
     ofxCvGrayscaleImage  bgImg;
     ofxCvContourFinder  contourFinder;
     ofxCvBlobTracker  blobTracker;	
-	//sensing();
 	vector <ofxCvTrackedBlob> getBlobs();
 	bool disabled;
+	
 private:
+	
 	ofxFBOTexture outputTexture;
 	int blurAmount;
 	bool myButton;

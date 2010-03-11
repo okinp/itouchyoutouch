@@ -39,6 +39,33 @@ void TouchesController::load()
 /* Update
  ___________________________________________________________ */
 
+void TouchesController::touchMoved(int blobid, vector <ofPoint> pts, ofPoint centroid)
+{
+	for(int i = 0; i < touches.size(); i++)
+	{
+		if (touches[i]->getModel()->blobid == blobid && touches[i]->getModel()->drawing) 
+		{
+			touches[i]->addPathPointAndScale(centroid.x, centroid.y, outlineScale);
+			touches[i]->setOutlineAndScale(pts, outlineScale);
+			
+			int hasPlaying = touches[i]->getModel()->hasPlaying;
+			
+			// if no connection is made
+			if (hasPlaying == DISABLED) 
+			{
+				findClosest(i);
+			}
+			// else if playing connection has stopped
+			else if(touches[hasPlaying]->checkStopped())
+			{
+				touches[i]->getModel()->hasPlaying = DISABLED;
+			}
+			
+			break;
+		}
+	}
+}
+
 void TouchesController::update()
 {	
 	for (int i = 0; i < touches.size(); i++) 
@@ -66,10 +93,6 @@ void TouchesController::showNeighbours(int index)
 	vector <int> found;
 	found.push_back(index);
 	
-	printf("There are %d touches in total \n", touches.size());
-	printf("Index is %d \n", index);
-
-	
 	for (int i = 0; i < touches.size(); i++) 
 	{
 		compare1.set(touches[i]->getModel()->getCurPos());
@@ -84,25 +107,15 @@ void TouchesController::showNeighbours(int index)
 			// if lower than threshold, discard
 			if(abs((int) compare1.distance(compare2)) < PROXIMITY_NEIGHBOUR)
 			{
-				printf("Touch %d with x: %f y: %f is lower than found %d with x: %f y: %f \n", i, touches[i]->getModel()->getCurPos().x, touches[i]->getModel()->getCurPos().y, found[j], touches[found[j]]->getModel()->getCurPos().x, touches[found[j]]->getModel()->getCurPos().y);
-				
 				foundLower = true;
 			}
-			else {
-				printf("Touch %d with x: %f y: %f is higher than found %d with x: %f y: %f \n", i, touches[i]->getModel()->getCurPos().x, touches[i]->getModel()->getCurPos().y, j, touches[found[j]]->getModel()->getCurPos().x, touches[found[j]]->getModel()->getCurPos().y);
-			}
-
 		}
 		
 		if(!foundLower)
 		{
 			found.push_back(i);
-			
-			printf("Saved %d in found\n", i);
 		}
 	}
-	
-	printf("Found: %zd \n", found.size());
 	
 	for(int i = 0; i < found.size(); i++)
 	{
@@ -112,15 +125,13 @@ void TouchesController::showNeighbours(int index)
 
 void TouchesController::findClosest(int index)
 {
-	// THIS SHOULD ONLY WORK ON VISIBLE TOUCHES
-	
 	compare1.set(touches[index]->getModel()->getCurPos());
 	
 	for(int i = 0; i < touches.size(); i++)
 	{
 		compare2.set(touches[i]->getModel()->getStartPos());
 		
-		if(abs((int) compare1.distance(compare2)) < PROXIMITY) 
+		if(abs((int) compare1.distance(compare2)) < PROXIMITY && i != index && touches[i]->getModel()->visible) 
 		{
 			touches[i]->play();
 			touches[index]->getModel()->hasPlaying = i;
@@ -146,32 +157,11 @@ void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint c
 		touch->saveOutline(); // this sets the outline used for playback
 		touch->show();
 		
-		printf("Touches size before pushing new touch: %zd \n", touches.size());
-		
 		touches.push_back(touch);
 		
 		showNeighbours(touches.size() - 1);
 		
 		numDrawing++;
-	}
-}
-
-void TouchesController::touchMoved(int blobid, vector <ofPoint> pts, ofPoint centroid)
-{
-	for(int i = 0; i < touches.size(); i++)
-	{
-		if (touches[i]->getModel()->blobid == blobid) 
-		{
-			touches[i]->addPathPointAndScale(centroid.x, centroid.y, outlineScale);
-			touches[i]->setOutlineAndScale(pts, outlineScale);
-
-			if (touches[i]->getModel()->hasPlaying == DISABLED) 
-			{
-				//findClosest(i);
-			}
-
-			break;
-		}
 	}
 }
 
@@ -181,21 +171,17 @@ void TouchesController::touchEnded(int blobid)
 	{
 		if (touches[i]->getModel()->blobid == blobid) 
 		{
-			printf("Removing touch \n");
-			
-			touches[i]->reset();
-			//touches[i]->save();
-			
 			if(touches[i]->getModel()->hasPlaying != DISABLED)
 			{
 				touches[touches[i]->getModel()->hasPlaying]->reset();
 			}
 			
+			touches[i]->reset();
+			//touches[i]->save();
+			
 			numDrawing--;
 			
 			//hideAllBut(-1);
-			
-			touches[i]->getModel()->drawing = false;
 			
 			break;
 		}
