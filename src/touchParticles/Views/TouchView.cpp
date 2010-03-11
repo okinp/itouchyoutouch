@@ -104,13 +104,22 @@ void TouchView::spawn(int i)
 			int max = model->outline.size() - 1;
 			ofPoint thePoint = model->outline[ofRandom(0, max)];
 			
-			// set static center for test 
-			PVector center;
-			center.x = 150;
-			center.y = 200;
-			
+			// choose where the particle go
 			ofxVec2f direction;
-			direction.set(thePoint - model->getCurPos());
+			
+			if(model->hasPlaying != DISABLED && model->playingModel != NULL)
+			{				
+				direction.set(model->playingModel->getCurPos() - thePoint);
+			}
+			else if(model->hasDrawing != DISABLED && model->drawingModel != NULL)
+			{	
+				direction.set(model->drawingModel->getCurPos() - thePoint);
+			}
+			else 
+			{				
+				direction.set(thePoint - model->getCurPos());
+			}
+					
 			direction.normalize();
 			
 			// This makes sure the outline is moving if playing

@@ -79,6 +79,8 @@ void TouchController::reset()
 {	
 	model->playing = false;
 	model->drawing = false;
+	model->hasPlaying = DISABLED;
+	model->hasDrawing = DISABLED;
 	//model->visible = false;
 	model->playHead = 0;
 	model->blobid = -1;
@@ -87,9 +89,7 @@ void TouchController::reset()
 bool TouchController::checkStopped()
 {	
 	if (model->playing && model->playHead == model->path.size() - 1) 
-	{		
-		reset();
-		
+	{				
 		return true;
 	}
 	

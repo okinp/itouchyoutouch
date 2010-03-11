@@ -20,15 +20,27 @@ public:
 	bool visible;
 	
 	int hasPlaying;
+	int hasDrawing;
 	int playHead;
 	bool playing;
 	bool drawing;
+	
+	TouchModel * drawingModel;
+	TouchModel * playingModel;
 
 	TouchModel()
 	{
 		hasPlaying = DISABLED;
+		hasDrawing = DISABLED;
 		visible = true;
 		drawing = false;
+		
+		moveAway();
+	}
+	
+	void moveAway()
+	{
+		settings.clear();
 		
 		PSetting setting1;
 		setting1.percent = 0.8;

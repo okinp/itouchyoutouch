@@ -9,7 +9,7 @@
     </SliderInt_Bluring>
     <SliderInt_Area>
         <name>Area</name>
-        <value>2654</value>
+        <value>300</value>
     </SliderInt_Area>
     <Toggle_Mask>
         <name>Mask</name>

@@ -31,8 +31,11 @@ class TouchesController
 	
 		void findClosest(int index);
 		void showNeighbours(int index);	
+	
+		void connectionMade(int drawing, int playing);
+		void connectionStopped(int drawing, int playing);
 		
-		int nextTexture();
+		int getNextTexture();
 		
 		vector <TouchController*> touches;
 		

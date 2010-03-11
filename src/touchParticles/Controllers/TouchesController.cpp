@@ -22,16 +22,13 @@ TouchesController::TouchesController()
 
 void TouchesController::load()
 {
-	// Load textues
-	
+	// Load textures
 	for(int i = 0; i < NUM_TEXTURES; i++)
 	{
 		textures[i].loadImage("particleGrid" + ofToString(i, 0) + ".png");
 	}
 	
-	
 	// Load XML files
-	
 	ofxDirList DIR;
 	DIR.allowExt("xml");
 	
@@ -70,7 +67,7 @@ void TouchesController::touchMoved(int blobid, vector <ofPoint> pts, ofPoint cen
 			// else if playing connection has stopped
 			else if(touches[hasPlaying]->checkStopped())
 			{
-				touches[i]->getModel()->hasPlaying = DISABLED;
+				connectionStopped(i, hasPlaying);
 			}
 			
 			break;
@@ -145,15 +142,45 @@ void TouchesController::findClosest(int index)
 		
 		if(abs((int) compare1.distance(compare2)) < PROXIMITY && i != index && touches[i]->isAllowed()) 
 		{
-			touches[i]->play();
-			touches[index]->getModel()->hasPlaying = i;
+			connectionMade(index, i);
+			
 			//hideAllBut(i);
 		}
 	}
 }
 
-/* Touch Events
+/* Connections
  ___________________________________________________________ */
+
+void TouchesController::connectionMade(int drawing, int playing)
+{
+	int textureNum = getNextTexture();
+	touches[playing]->setTexture(textures[textureNum], NUM_ROWS, NUM_COLS);
+	touches[drawing]->setTexture(textures[textureNum], NUM_ROWS, NUM_COLS);
+	
+	touches[playing]->play();
+	touches[playing]->getModel()->hasDrawing = drawing;
+	touches[playing]->getModel()->drawingModel = touches[drawing]->getModel();
+	
+	touches[drawing]->getModel()->hasPlaying = playing;
+	touches[drawing]->getModel()->playingModel = touches[playing]->getModel();;
+}
+
+void TouchesController::connectionStopped(int drawing, int playing)
+{
+	touches[playing]->setTexture(textures[0], NUM_ROWS, NUM_COLS);
+	touches[drawing]->setTexture(textures[0], NUM_ROWS, NUM_COLS);
+	
+	touches[playing]->getModel()->drawingModel = 0;
+	touches[playing]->reset();
+	
+	touches[drawing]->getModel()->playingModel = 0;
+	touches[drawing]->getModel()->hasPlaying = DISABLED;
+	
+}
+
+/* Touch Events
+___________________________________________________________ */
 
 
 void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint centroid)
@@ -191,7 +218,21 @@ void TouchesController::touchEnded(int blobid)
 			}
 			
 			touches[i]->reset();
-			//touches[i]->save();
+			
+			//printf("Path size: %zd \n", touches[i]->getModel()->path.size());
+			//printf("Allowed size: %d \n", MIN_PATH_LENGTH);
+			
+			// if path is lower than allowed, delete
+			if(touches[i]->getModel()->path.size() < MIN_PATH_LENGTH)
+			{
+				//delete touches[i];
+				//touches.erase(touches.begin()+i);
+			}
+			else 
+			{
+				//touches[i]->save();
+			}
+
 			
 			numDrawing--;
 			
@@ -205,7 +246,7 @@ void TouchesController::touchEnded(int blobid)
 /* Next Texture
  ___________________________________________________________ */
 
-int TouchesController::nextTexture()
+int TouchesController::getNextTexture()
 {
 	curTexture++;
 	
