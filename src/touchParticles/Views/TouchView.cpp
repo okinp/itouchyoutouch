@@ -90,8 +90,6 @@ void TouchView::spawn(int i)
 	float percent = 0.0;
 	float random = ofRandomuf();
 	
-	//printf("Setting size: %zd \n", settings.size());
-	
 	for (int j = 0; j < model->settings.size(); j++) 
 	{
 		percent += model->settings[j].percent;
@@ -104,16 +102,25 @@ void TouchView::spawn(int i)
 			int max = model->outline.size() - 1;
 			ofPoint thePoint = model->outline[ofRandom(0, max)];
 			
+			// This makes sure the outline is moving if playing
+			// Also makes the particles gravity work on movement
+			if(model->playing)
+			{				
+				ofPoint diff = model->getCurPos() - model->getStartPos();
+				
+				thePoint += diff;
+			}
+			
 			// choose where the particle go
 			ofxVec2f direction;
 			
-			if(model->hasPlaying != DISABLED && model->playingModel != NULL)
+			if(model->playing != DISABLED && model->hasDrawing != DISABLED && model->drawingModel != NULL)
 			{				
-				direction.set(model->playingModel->getCurPos() - thePoint);
-			}
-			else if(model->hasDrawing != DISABLED && model->drawingModel != NULL)
-			{	
 				direction.set(model->drawingModel->getCurPos() - thePoint);
+			}
+			else if(model->drawing != DISABLED && model->hasPlaying != DISABLED && model->playingModel != NULL)
+			{	
+				direction.set(model->playingModel->getCurPos() - thePoint);
 			}
 			else 
 			{				
@@ -121,14 +128,6 @@ void TouchView::spawn(int i)
 			}
 					
 			direction.normalize();
-			
-			// This makes sure the outline is moving if playing
-			if(model->playing)
-			{
-				ofPoint diff = model->getCurPos() - model->getStartPos();
-				
-				thePoint += diff;
-			}
 			
 			setParticlePos(i, thePoint.x, thePoint.y);
 			setParticleTexCoords(i, (int)ofRandom(0, 2), (int)ofRandom(0, 2));

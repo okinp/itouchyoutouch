@@ -65,10 +65,10 @@ void TouchesController::touchMoved(int blobid, vector <ofPoint> pts, ofPoint cen
 				findClosest(i);
 			}
 			// else if playing connection has stopped
-			else if(touches[hasPlaying]->checkStopped())
-			{
-				connectionStopped(i, hasPlaying);
-			}
+			//else if(touches[hasPlaying]->checkStopped())
+			//{
+				//connectionStopped(i, hasPlaying);
+			//}
 			
 			break;
 		}
@@ -97,41 +97,6 @@ void TouchesController::draw()
 /* Distance methods
  ___________________________________________________________ */
 
-void TouchesController::showNeighbours(int index)
-{
-	vector <int> found;
-	found.push_back(index);
-	
-	for (int i = 0; i < touches.size(); i++) 
-	{
-		compare1.set(touches[i]->getModel()->getCurPos());
-		
-		bool foundLower = false;
-		
-		// compare to every found neighbour
-		for(int j = 0; j < found.size(); j++)
-		{
-			compare2.set(touches[found[j]]->getModel()->getCurPos());
-			
-			// if lower than threshold, discard
-			if(abs((int) compare1.distance(compare2)) < PROXIMITY_NEIGHBOUR)
-			{
-				foundLower = true;
-			}
-		}
-		
-		if(!foundLower)
-		{
-			found.push_back(i);
-		}
-	}
-	
-	for(int i = 0; i < found.size(); i++)
-	{
-		touches[found[i]]->show();
-	}
-}
-
 void TouchesController::findClosest(int index)
 {
 	compare1.set(touches[index]->getModel()->getCurPos());
@@ -143,9 +108,34 @@ void TouchesController::findClosest(int index)
 		if(abs((int) compare1.distance(compare2)) < PROXIMITY && i != index && touches[i]->isAllowed()) 
 		{
 			connectionMade(index, i);
-			
-			//hideAllBut(i);
 		}
+	}
+}
+
+void TouchesController::showFurthestAway(int index)
+{	
+	int furthest = DISABLED;
+	float distance = 0;
+	
+	compare1.set(touches[index]->getModel()->getCurPos());
+	
+	for(int i = 0; i < touches.size(); i++) 
+	{
+		compare2.set(touches[i]->getModel()->getCurPos());
+		
+		float diff = abs((int) compare1.distance(compare2));
+			
+		if(diff > distance && !touches[i]->getModel()->visible)
+		{
+			furthest = i;
+			distance = diff;
+		}
+	}
+	
+	if(furthest != DISABLED)
+	{
+		touches[index]->getModel()->hasBond = furthest;
+		touches[furthest]->show();
 	}
 }
 
@@ -171,11 +161,12 @@ void TouchesController::connectionStopped(int drawing, int playing)
 	touches[playing]->setTexture(textures[0], NUM_ROWS, NUM_COLS);
 	touches[drawing]->setTexture(textures[0], NUM_ROWS, NUM_COLS);
 	
-	touches[playing]->getModel()->drawingModel = 0;
+	//touches[playing]->getModel()->drawingModel = 0;
 	touches[playing]->reset();
 	
-	touches[drawing]->getModel()->playingModel = 0;
-	touches[drawing]->getModel()->hasPlaying = DISABLED;
+	//touches[drawing]->getModel()->playingModel = 0;
+	//touches[drawing]->getModel()->hasPlaying = DISABLED;
+	touches[drawing]->reset();
 	
 }
 
@@ -200,7 +191,7 @@ void TouchesController::touchStarted(int blobid, vector <ofPoint> pts, ofPoint c
 		
 		touches.push_back(touch);
 		
-		showNeighbours(touches.size() - 1);
+		showFurthestAway(touches.size() - 1);
 		
 		numDrawing++;
 	}
@@ -213,30 +204,22 @@ void TouchesController::touchEnded(int blobid)
 		if (touches[i]->getModel()->blobid == blobid) 
 		{
 			if(touches[i]->getModel()->hasPlaying != DISABLED)
-			{
-				touches[touches[i]->getModel()->hasPlaying]->reset();
+			{				
+				connectionStopped(i, touches[i]->getModel()->hasPlaying);
 			}
-			
-			touches[i]->reset();
-			
-			//printf("Path size: %zd \n", touches[i]->getModel()->path.size());
-			//printf("Allowed size: %d \n", MIN_PATH_LENGTH);
-			
-			// if path is lower than allowed, delete
-			if(touches[i]->getModel()->path.size() < MIN_PATH_LENGTH)
+			else if(touches[i]->getModel()->hasBond != DISABLED)
 			{
-				//delete touches[i];
-				//touches.erase(touches.begin()+i);
+				touches[touches[i]->getModel()->hasBond]->reset();
+				touches[i]->reset();
 			}
 			else 
 			{
-				//touches[i]->save();
+				touches[i]->reset();
 			}
-
+			
+			touches[i]->save();
 			
 			numDrawing--;
-			
-			//hideAllBut(-1);
 			
 			break;
 		}
@@ -256,45 +239,6 @@ int TouchesController::getNextTexture()
 	}
 	
 	return curTexture;
-}
-
-/* Show / Hide all
- ___________________________________________________________ */
-
-void TouchesController::showAllBut(int leaveOut, bool hideDrawing)
-{
-	for(int i = 0; i < touches.size(); i++)
-	{
-		if(i != leaveOut)
-		{
-			if(!hideDrawing)
-			{
-				touches[i]->show();
-			}
-			else if(hideDrawing && !touches[i]->getModel()->drawing)
-			{
-				touches[i]->show();
-			}
-		}
-	}
-}
-
-void TouchesController::hideAllBut(int leaveOut, bool hideDrawing)
-{
-	for(int i = 0; i < touches.size(); i++)
-	{
-		if(i != leaveOut)
-		{
-			if(!hideDrawing)
-			{
-				touches[i]->hide();
-			}
-			else if(hideDrawing && !touches[i]->getModel()->drawing)
-			{
-				touches[i]->hide();
-			}
-		}
-	}
 }
 
 

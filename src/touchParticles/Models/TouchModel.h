@@ -19,6 +19,7 @@ public:
 
 	bool visible;
 	
+	int hasBond;
 	int hasPlaying;
 	int hasDrawing;
 	int playHead;
@@ -30,9 +31,10 @@ public:
 
 	TouchModel()
 	{
+		hasBond = DISABLED;
 		hasPlaying = DISABLED;
 		hasDrawing = DISABLED;
-		visible = true;
+		visible = false;
 		drawing = false;
 		
 		moveAway();
@@ -63,6 +65,11 @@ public:
 
 	ofPoint getCurPos()
 	{
+		if(playHead == 30)
+		{
+			startOutline = outline;
+		}
+		
 		return path[playHead];
 	}
 	

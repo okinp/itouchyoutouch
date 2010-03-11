@@ -5,12 +5,12 @@ sensing::sensing(ofxCvBlobListener * listener)
 	disabled = true;
 	cwidth = VIDEO_WIDTH;
     cheight = VIDEO_HEIGHT;
-	threshold = 61;
+	threshold = 40;
 	blurAmount = 0;
-	area = 300;
+	area = 250;
 	bLearnBakground = true;
-	show=false;
-	myButton=false;
+	show = false;
+	myButton = false;
 	vidGrabber.initGrabber( cwidth, cheight );
 	colorImg.allocate( cwidth, cheight );
 	grayImg.allocate( cwidth, cheight );

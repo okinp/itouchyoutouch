@@ -48,22 +48,24 @@ void TouchController::draw()
 	view.render();
 	
 	// just for testing
-	if(model->playing)
+	if(DEBUG)
 	{
-		ofSetColor(0, 255, 0);
-		ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
+		if(model->playing)
+		{
+			ofSetColor(0, 255, 0);
+			ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
+		}
+		else if(model->drawing)
+		{
+			ofSetColor(255, 0, 0);
+			ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
+		}
+		else 
+		{
+			ofSetColor(255, 255, 255);
+			ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
+		}
 	}
-	else if(model->drawing)
-	{
-		ofSetColor(255, 0, 0);
-		ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
-	}
-	else 
-	{
-		ofSetColor(255, 255, 255);
-		ofCircle(model->getCurPos().x, model->getCurPos().y, 5);
-	}
-
 }
 
 
@@ -77,11 +79,15 @@ void TouchController::play()
 
 void TouchController::reset()
 {	
+	model->outline = model->startOutline;
 	model->playing = false;
 	model->drawing = false;
 	model->hasPlaying = DISABLED;
 	model->hasDrawing = DISABLED;
-	//model->visible = false;
+	model->hasBond = DISABLED;
+	model->drawingModel = NULL;
+	model->playingModel = NULL;
+	model->visible = false;
 	model->playHead = 0;
 	model->blobid = -1;
 }
@@ -236,8 +242,6 @@ void TouchController::save()
 
 bool TouchController::isAllowed()
 {
-	printf("Drawing: %d \n", model->drawing);
-	
 	if(model->playing || model->drawing || !model->visible)
 	{
 		return false;

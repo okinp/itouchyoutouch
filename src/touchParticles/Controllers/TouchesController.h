@@ -26,11 +26,9 @@ class TouchesController
 		void loadTextures();
 		void checkDistance();
 		void updatePlaying();
-		void showAllBut(int leaveOut, bool hideDrawing = false);
-		void hideAllBut(int leaveOut, bool hideDrawing = false);
 	
 		void findClosest(int index);
-		void showNeighbours(int index);	
+		void showFurthestAway(int index);	
 	
 		void connectionMade(int drawing, int playing);
 		void connectionStopped(int drawing, int playing);

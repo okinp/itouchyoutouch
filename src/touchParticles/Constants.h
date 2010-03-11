@@ -1,9 +1,10 @@
 /* Setup
 _______________________________________________________________________ */
 
+#define DEBUG false
+
 #define FOLDER "touchdata/"
-#define PROXIMITY 300
-#define PROXIMITY_NEIGHBOUR 400
+#define PROXIMITY 100
 #define MAX_PARTICLES 5000
 #define DELETE_PAIRED true
 #define SIM_ALLOWED_TOUCHES 10
