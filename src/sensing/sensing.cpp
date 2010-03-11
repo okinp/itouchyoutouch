@@ -64,7 +64,7 @@ void sensing::update()
 			grayImg.setFromPixels(grayPixels, cwidth,cheight);
 		}
         //findContures( img, minSize, maxSize, nMax, inner contours yes/no )
-        contourFinder.findContours( grayImg, area, 300000, 20, false );
+        contourFinder.findContours( grayImg, area, 300000, 20, false);
         blobTracker.trackBlobs( contourFinder.blobs );
     }
 	//cout <<	myButton <<endl;

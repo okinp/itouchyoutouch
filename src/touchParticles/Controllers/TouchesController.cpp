@@ -218,7 +218,10 @@ void TouchesController::touchEnded(int blobid)
 				touches[i]->reset();
 			}
 			
-			//touches[i]->save();
+			if(ENABLE_SAVE)
+			{
+				touches[i]->save();
+			}
 			
 			numDrawing--;
 			

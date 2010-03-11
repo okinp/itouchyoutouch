@@ -6,13 +6,14 @@ _______________________________________________________________________ */
 #define MAX_PARTICLES 10000
 
 #define FOLDER "touchdata/"
-#define PROXIMITY 100
+#define PROXIMITY 300
 #define DELETE_PAIRED true
 #define SIM_ALLOWED_TOUCHES 10
 #define NUM_TEXTURES 5
 #define NUM_ROWS 2
 #define NUM_COLS 2
 #define MIN_PATH_LENGTH 200
+#define ENABLE_SAVE false
 
 /* Video Size
  _______________________________________________________________________ */

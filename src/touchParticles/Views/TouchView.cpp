@@ -5,7 +5,7 @@ _______________________________________________________________________ */
 
 TouchView::TouchView() 
 {
-	flare.loadImage("flare.png");
+	flare.loadImage("flare_bw.png");
 }
 
 /* Init
@@ -155,7 +155,7 @@ void TouchView::spawn(int i)
 
 void TouchView::render() 
 {		
-	if(model->drawing)
+	if(model->visible)
 	{
 		ofSetColor(0xFFFFFF);
 		ofEnableAlphaBlending();
@@ -192,7 +192,6 @@ void TouchView::render()
 	
 	ofEnableAlphaBlending();
 	
-	// rune stuff
 	texture.getTextureReference().bind();
 	
 	glDrawArrays(GL_QUADS, 0, MAX_PARTICLES*4);  // render all array data we putted in VBO's as quads, at index 0, and to the end of the arrays

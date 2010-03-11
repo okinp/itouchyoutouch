@@ -237,21 +237,17 @@ void TouchController::save()
 }
 
 /* Setters
- ___________________________________________________________ */
-
-bool TouchController::isAllowed()
-{
-	if(model->playing || model->drawing || !model->visible)
-	{
-		return false;
-	}
-	
-	return true;
-}
+___________________________________________________________ */
 
 void TouchController::addPathPointAndScale(int xPos, int yPos, float scale)
 {		
-	model->path.push_back(ofPoint(xPos * scale, yPos * scale));
+	//xPos = xPos * scale;
+	//yPos = yPos * scale;
+	
+	xPos = (xPos - 30) * 4.1;
+	yPos = (yPos - 40) * 4.2;
+	
+	model->path.push_back(ofPoint(xPos, yPos));
 	model->playHead = model->path.size() - 1;
 }
 
@@ -261,10 +257,24 @@ void TouchController::setOutlineAndScale(vector <ofPoint> newOutline, float scal
 	
 	for(int i = 0; i < newOutline.size(); i++)
 	{
-		newOutline[i] *= scale;
+		//newOutline[i] *= scale;
+		
+		// calibration
+		newOutline[i].x = (newOutline[i].x - 20) * 4.1;
+		newOutline[i].y = (newOutline[i].y - 40) * 4.2;
 	}
 	
 	model->outline = newOutline;
+}
+
+bool TouchController::isAllowed()
+{
+	if(model->playing || model->drawing || !model->visible)
+	{
+		return false;
+	}
+	
+	return true;
 }
 
 void TouchController::saveOutline()
