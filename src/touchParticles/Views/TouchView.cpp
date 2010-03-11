@@ -155,7 +155,7 @@ void TouchView::spawn(int i)
 
 void TouchView::render() 
 {		
-	if(model->visible)
+	if(model->drawing)
 	{
 		ofSetColor(0xFFFFFF);
 		ofEnableAlphaBlending();

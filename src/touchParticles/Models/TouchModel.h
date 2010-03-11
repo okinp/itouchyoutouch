@@ -45,25 +45,25 @@ public:
 		settings.clear();
 		
 		PSetting setting1;
-		setting1.percent = 0.8;
+		setting1.percent = 0.4;
 		setting1.sizeMin = 5;
 		setting1.sizeMax = 10;
-		setting1.dirMin = 3;
-		setting1.dirMax = 5;
+		setting1.dirMin = 0.5;
+		setting1.dirMax = 1;
 		//setting1.dirMin = 0.2;
 		//setting1.dirMax = 0.9;
-		setting1.lifeMin = 0.1;
-		setting1.lifeMax = 0.2;
+		setting1.lifeMin = 0.15;
+		setting1.lifeMax = 0.25;
 		settings.push_back(setting1);
 		
 		PSetting setting2;
-		setting2.percent = 0.2;
-		setting1.sizeMin = 3;
-		setting1.sizeMax = 5;
-		setting2.dirMin = 5;
-		setting2.dirMax = 10;
-		setting2.lifeMin = 0.1;
-		setting2.lifeMax = 0.2;
+		setting2.percent = 0.6;
+		setting1.sizeMin = 5;
+		setting1.sizeMax = 10;
+		setting2.dirMin = 2;
+		setting2.dirMax = 3;
+		setting2.lifeMin = 0.15;
+		setting2.lifeMax = 0.25;
 		settings.push_back(setting2);
 	}
 
