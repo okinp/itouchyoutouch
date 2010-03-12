@@ -13,7 +13,7 @@
     </SliderInt_Area>
     <Toggle_Mask>
         <name>Mask</name>
-        <value>0</value>
+        <value>1</value>
     </Toggle_Mask>
     <Toggle_Disabled>
         <name>Disabled</name>

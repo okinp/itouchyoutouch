@@ -46,6 +46,10 @@ void testApp::keyPressed( int key )
 	{
 		mySensing->show =! mySensing->show;
 	}
+	else if(key == 'c')
+	{
+		touches->reset();
+	}
 }
 
 void testApp::mouseMoved( int x, int y ) {}

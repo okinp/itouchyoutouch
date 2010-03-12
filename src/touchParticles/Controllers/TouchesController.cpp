@@ -245,5 +245,10 @@ int TouchesController::getNextTexture()
 	return curTexture;
 }
 
+void TouchesController::reset()
+{
+	touches.clear();
+}
+
 
 

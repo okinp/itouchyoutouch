@@ -21,6 +21,8 @@ class TouchesController
 		void touchMoved(int blobid, vector <ofPoint> pts, ofPoint centroid);
 		void touchEnded(int blobid);
 		
+		void reset();
+		
 	private:
 	
 		void loadTextures();
